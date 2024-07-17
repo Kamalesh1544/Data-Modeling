@@ -39,7 +39,7 @@ app = FastAPI(
     debug=settings.MODE == 'DEVELOPMENT',
     summary=settings.SUMMARY,
     docs_url="/docs",
-    redoc_url="/redoc",
+    redoc_url="/redocs",
     default_response_class=ORJSONResponse,
     lifespan=lifespan
 )

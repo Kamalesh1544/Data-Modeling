@@ -19,7 +19,7 @@ class UserRepository:
             HTTPException: if user not found
         """
 
-        model = UserTable.get_or_none(id=user_id)
+        model = UserTable.get(id=user_id)
         if not model:
             raise HTTPException(status_code=404, detail="User not found")
 
