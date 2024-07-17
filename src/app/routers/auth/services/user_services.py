@@ -1,3 +1,4 @@
+from uuid import UUID
 from injector import inject, singleton
 
 from src.app.db.models.user.user_model import UserModel
@@ -11,7 +12,7 @@ class UserService:
     def __init__(self, user_repo: UserRepository):
         self._user_repo = user_repo
 
-    async def get_user(self, user_id: int) -> UserSchema:
+    async def get_user(self, user_id:UUID)->UserModel :
         """
         Get user by id
         Args:
@@ -20,18 +21,7 @@ class UserService:
         Returns:
             UserModel: user model instance
         """
-
-        # model = await self._user_repo.get_user(user_id)
-        data = {
-            "name": "hello",
-            "role": "admin",
-            "company": 1,
-            "uuid": "hello",
-            "user_id": "hello",
-            "email": "hello",
-            "email_verified": True,
-            "firebase": {},
-            "uid": "hello",
-            "created_at": "2021-09-01T00:00:00"
-        }
-        return UserSchema(**data)
+        print(f"----------------------------->{self._user_repo}")
+        model = await self._user_repo.get_user(user_id)
+        print(f"----------------------------->{model}")
+        return model

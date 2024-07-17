@@ -9,7 +9,7 @@ from starlette.responses import JSONResponse
 from tortoise.exceptions import DoesNotExist, IntegrityError
 from pydantic import BaseModel
 
-from src.app.core.exceptions.rbac.user_exception import UserAccountDisableError, UserWritePermissionError
+from src.app.core.exceptions.rbac.user_exception import UserAccountError, UserPermissionError
 from src.app.utils.response_helper import error_response
 from src.app.utils.schemas.output_schemas import ErrorSchemas
 
@@ -61,12 +61,12 @@ def init_errors_handler(app: FastAPI):
     ########################################
     ##### Custom exception handler here ####
     ########################################
-    @app.exception_handler(UserAccountDisableError)
+    @app.exception_handler(UserAccountError)
     async def user_account_exception_handler(request: Request, exc: Exception):
         logger.error("Value error exception" + str(request.base_url), exc_info=exc)
         return JSONResponse(error_response(str(exc)).dict(), status_code=403)
 
-    @app.exception_handler(UserWritePermissionError)
+    @app.exception_handler(UserPermissionError)
     async def user_write_exception_handler(request: Request, exc: Exception):
         logger.error("Value error exception" + str(request.base_url), exc_info=exc)
         return JSONResponse(error_response(str(exc)).dict(), status_code=403)

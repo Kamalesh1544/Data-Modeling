@@ -43,14 +43,15 @@ app = FastAPI(
     default_response_class=ORJSONResponse,
     lifespan=lifespan
 )
+setup_middleware(app)
+
+setup_db(app)
 
 
 injector = Injector()
 attach_injector(app, injector=injector)
 
-setup_middleware(app)
 
-# setup_db(app)
 
 init_logger(logging.DEBUG)
 

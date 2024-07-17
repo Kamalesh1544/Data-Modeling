@@ -1,3 +1,4 @@
+from uuid import UUID
 from injector import inject, singleton
 from fastapi.exceptions import HTTPException
 
@@ -6,7 +7,7 @@ from src.app.db.models.user.user_model import UserTable, UserModel
 
 @singleton
 class UserRepository:
-    async def get_user(self, user_id: int) -> UserModel:
+    async def get_user(self, user_id: UUID) -> UserModel:
         """
         Get user by id
         Args:
@@ -19,7 +20,9 @@ class UserRepository:
             HTTPException: if user not found
         """
 
-        model = UserTable.get(id=user_id)
+        print(f"----------------------------->{UserTable}")
+        model =  UserTable.get(user_id=user_id)
+        print(f"----------------------------->{model}")
         if not model:
             raise HTTPException(status_code=404, detail="User not found")
 

@@ -1,4 +1,4 @@
-from src.app.core.exceptions.general_eception import GeneralException
+from src.app.core.exceptions.general_exception import GeneralException
 
 
 class UserAccountError(GeneralException):
