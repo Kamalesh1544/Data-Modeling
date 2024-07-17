@@ -1,0 +1,17 @@
+aerich
+asyncpg
+email-validator
+fastapi
+fastapi-crudrouter
+fastapi-pagination
+pydantic
+fastapi-mail
+uvicorn
+fastapi-cache
+tortoise-orm
+python-dotenv
+starlette
+python-jose[cryptography]
+passlib[bcrypt]
+celery[redis]
+python-multipart
