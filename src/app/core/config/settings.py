@@ -1,10 +1,7 @@
-import logging
 from functools import lru_cache
 from typing import Optional
 
-from fastapi_mail import ConnectionConfig
 from pydantic_settings import BaseSettings
-
 
 IS_PRODUCTION = False
 LOGGER_NAME = "exception"
@@ -14,8 +11,17 @@ class Settings(BaseSettings):
     APP_NAME: str
     APP_VERSION: str
     MODE: str
+    # CRITICAL = 50
+    # FATAL = CRITICAL
+    # ERROR = 40
+    # WARNING = 30
+    # WARN = WARNING
+    # INFO = 20
+    # DEBUG = 10
+    # NOTSET = 0
+    LOG_LEVEL: int
 
-    SUMMARY:str = "User Management API"
+    SUMMARY: str = "User Management API"
 
     #################################
     ###### CORS Config ##############

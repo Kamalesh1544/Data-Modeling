@@ -1,7 +1,9 @@
 from uuid import UUID
-from injector import inject, singleton
-from fastapi.exceptions import HTTPException
 
+from fastapi.exceptions import HTTPException
+from injector import singleton
+
+from src.app.core.exceptions.resources_exceptions import ResourceNotFoundError
 from src.app.db.models.user.user_model import UserTable, UserModel
 
 
@@ -19,11 +21,7 @@ class UserRepository:
         Raises:
             HTTPException: if user not found
         """
+        # No need to check if user is None, it will raise DoesNotExist exception
+        model = UserTable.get(user_id=user_id)
 
-        print(f"----------------------------->{UserTable}")
-        model =  UserTable.get(user_id=user_id)
-        print(f"----------------------------->{model}")
-        if not model:
-            raise HTTPException(status_code=404, detail="User not found")
-
-        return await UserModel.from_tortoise_orm(model)
+        return await UserModel.from_queryset_single(model)
