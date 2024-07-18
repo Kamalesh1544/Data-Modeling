@@ -27,7 +27,7 @@ def init_errors_handler(app: FastAPI):
     async def http_exception_handler(request: Request, exc: HTTPException):
         logger.error(f"HTTP exception: url: {request.base_url}", exc_info=exc)
         return error_response(
-            error_code="HTTPException", message=str(exc.detail)
+            request, error_code="HTTPException", message=str(exc.detail)
         )
 
     @app.exception_handler(RequestValidationError)
@@ -39,6 +39,7 @@ def init_errors_handler(app: FastAPI):
         )
         details = [ErrorSchemas(**error) for error in exc.errors()]
         return error_response(
+            request,
             error_code="VALIDATION_ERROR",
             message=str(exc.body),
             details=details,
@@ -51,7 +52,10 @@ def init_errors_handler(app: FastAPI):
             f"Value error exception: url: {request.base_url}", exc_info=exc
         )
         return error_response(
-            error_code="VALIDATION_ERROR", message=str(exc), status_code=422
+            request,
+            error_code="VALIDATION_ERROR",
+            message=str(exc),
+            status_code=422,
         )
 
     ########################################
@@ -63,6 +67,7 @@ def init_errors_handler(app: FastAPI):
             f"Not found exception: url: {request.base_url}", exc_info=exc
         )
         return error_response(
+            request,
             error_code="RESOURCE_NOT_FOUND",
             message="Requested Resource Not Found",
             status_code=404,
@@ -76,7 +81,10 @@ def init_errors_handler(app: FastAPI):
             f"Integrity exception: url: {request.base_url}", exc_info=exc
         )
         return error_response(
-            error_code="INTEGRITY_ERROR", message=str(exc), status_code=400
+            request,
+            error_code="INTEGRITY_ERROR",
+            message=str(exc),
+            status_code=400,
         )
 
     @app.exception_handler(MultipleObjectsReturned)
@@ -87,6 +95,7 @@ def init_errors_handler(app: FastAPI):
             f"Integrity exception: url: {request.base_url}", exc_info=exc
         )
         return error_response(
+            request,
             error_code="MULTIPLE_OBJECTS_RETURNED",
             message=str(exc),
             status_code=400,
@@ -101,6 +110,7 @@ def init_errors_handler(app: FastAPI):
     ):
         logger.error(f"UserAccountError: url: {request.base_url}", exc_info=exc)
         return error_response(
+            request,
             error_code=exc.error_code,
             message=exc.message,
             status_code=exc.status_code,
@@ -114,6 +124,7 @@ def init_errors_handler(app: FastAPI):
             f"UserPermissionError: url: {request.base_url}", exc_info=exc
         )
         return error_response(
+            request,
             error_code=exc.error_code,
             message=exc.message,
             status_code=exc.status_code,
@@ -127,6 +138,7 @@ def init_errors_handler(app: FastAPI):
             f"ResourceNotFoundError: url: {request.base_url}", exc_info=exc
         )
         return error_response(
+            request,
             error_code=exc.error_code,
             message=exc.message,
             status_code=exc.status_code,

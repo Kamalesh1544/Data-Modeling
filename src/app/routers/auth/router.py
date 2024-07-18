@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi_injector import Injected
 
 from src.app.db.models.user.user_model import UserModel
@@ -20,7 +20,9 @@ router = APIRouter(tags=["User"])
     openapi_extra={},
 )
 async def user_details(
-    user_id: UUID, service: UserService = Injected(UserService)
+    request: Request,
+    user_id: UUID,
+    service: UserService = Injected(UserService),
 ):
     res = await service.get_user(user_id)
-    return success_response(res)
+    return success_response(res, request)

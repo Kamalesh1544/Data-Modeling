@@ -23,7 +23,7 @@ class UserTable(TimestampMixin, models.Model):
         # unique_together=(("field_a", "field_b"), )
 
     class PydanticMeta:
-        exclude = ["created_at", "updated_at", "status"]
+        exclude = ["created_at", "status"]
 
 
 UserModel = pydantic_model_creator(UserTable, name="User")

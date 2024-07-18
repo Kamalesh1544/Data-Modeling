@@ -85,3 +85,7 @@ skips = ["B101", "B611", "B601", "B608"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
+
+#[tool.mypy]
+#plugins = ["strawberry.ext.mypy_plugin"]

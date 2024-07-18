@@ -29,4 +29,4 @@ class UserRepository:
         """
         model = await UserTable.get(user_id=user_id)
         # Convert the retrieved database model into a UserModel instance.
-        return await UserModel.from_queryset_single(model)
+        return await UserModel.from_tortoise_orm(model)
