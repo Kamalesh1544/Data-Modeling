@@ -7,7 +7,7 @@ src_folder = "./."
 line-length = 79
 target-version = "py38"
 lint.select = [
-    "E",  # pycodestyle
+    "E",   # pycodestyle
     "W",  # pycodestyle
     "F",  # Pyflakes
     "PL", # pylint
