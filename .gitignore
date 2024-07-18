@@ -111,5 +111,3 @@ cython_debug/
 # remove ide config
 .idea
 .vscode
-
-pyproject.toml
