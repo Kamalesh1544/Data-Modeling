@@ -66,6 +66,10 @@ class Settings(BaseSettings):
     #################################
     CELERY_BROKER: str
     CELERY_BACKEND: str
+    #################################
+    ###### sentry Config ############
+    #################################
+    SENTRY_DSN: str
 
     # Create Email Config
     # using FastAPI Mail
@@ -98,7 +102,7 @@ def get_settings() -> Settings:
     """
     if not IS_PRODUCTION:
         return Settings(
-            _env_file="/home/shudipto/PycharmProjects/Fastapi-Starter/.env"
+            _env_file="/home/mutharasu/Documents/MY_playground/backend-base/.env"
         )
 
     return Settings()

@@ -45,6 +45,9 @@ setup_middleware(app)
 
 setup_db(app)
 
+# init_sentry()
+
+# setup inbjector
 injector = Injector()
 attach_injector(app, injector=injector)
 
