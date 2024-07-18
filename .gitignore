@@ -112,6 +112,4 @@ cython_debug/
 .idea
 .vscode
 
-# remove migrations
-migrations
 pyproject.toml

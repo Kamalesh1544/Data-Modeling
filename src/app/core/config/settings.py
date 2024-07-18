@@ -8,6 +8,11 @@ LOGGER_NAME = "exception"
 
 
 class Settings(BaseSettings):
+    """
+        Define settings for the application including app name, 
+        version, mode, log level, CORS configuration, database configuration, 
+        Redis configuration, email configuration, and Celery configuration.
+    """
     APP_NAME: str
     APP_VERSION: str
     MODE: str
@@ -82,6 +87,12 @@ class Settings(BaseSettings):
 
 @lru_cache()
 def get_settings() -> Settings:
+    """
+    Retrieve and return the application settings.
+    If not in production, load settings from a specific environment file.
+    Returns:
+        Settings: An instance of the Settings class containing application configurations.
+    """
     if not IS_PRODUCTION:
         return Settings(_env_file='/home/shudipto/PycharmProjects/Fastapi-Starter/.env')
 

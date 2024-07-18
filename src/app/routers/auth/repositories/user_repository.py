@@ -9,19 +9,26 @@ from src.app.db.models.user.user_model import UserTable, UserModel
 
 @singleton
 class UserRepository:
+    """
+    Repository class for user-related database operations.
+
+    This class provides methods to interact with the user data
+    stored in the database.
+    """
+
     async def get_user(self, user_id: UUID) -> UserModel:
         """
-        Get user by id
+        Retrieves a user by their unique identifier (UUID).
+
         Args:
-            user_id: user id
+            user_id (UUID): The unique identifier of the user.
 
         Returns:
-            UserModel: user model instance
+            UserModel: An instance of the UserModel containing the user data.
 
         Raises:
-            HTTPException: if user not found
+            DoesNotExist: If the user is not found.
         """
-        # No need to check if user is None, it will raise DoesNotExist exception
-        model = UserTable.get(user_id=user_id)
-
+        model = await UserTable.get(user_id=user_id)
+        # Convert the retrieved database model into a UserModel instance.
         return await UserModel.from_queryset_single(model)

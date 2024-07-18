@@ -14,11 +14,24 @@ def get_current_user(
             HTTPBearer(auto_error=False)
         ),
 ) -> UserSchema:
+    '''
+    Get the current user based on the provided HTTP Authorization credentials.
+
+Args:
+    res (Response): The response object to set headers if needed.
+    credential (HTTPAuthorizationCredentials): The HTTP Authorization credentials obtained from the request.
+
+Returns:
+    UserSchema: A UserSchema object containing the decoded user information.
+
+Raises:
+    HTTPException: If the credentials are missing.
+    UserAccountError: If there are token verification errors such as RevokedIdTokenError, UserDisabledError, InvalidIdTokenError, or any other unexpected exceptions.
+'''
     if credential is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Bearer authentication is needed",
-            headers={"WWW-Authenticate": 'Bearer realm="auth_required"'},
+        raise UserAccountError(
+            message="Invalid token, please login again",
+            error_code="REVOKED_TOKEN"
         )
     try:
         decoded_token = auth.verify_id_token(credential.credentials)

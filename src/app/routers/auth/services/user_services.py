@@ -8,18 +8,35 @@ from src.app.routers.auth.repositories.user_repository import UserRepository
 
 @singleton
 class UserService:
+    """
+    Service class for user-related business logic and operations.
+
+    This class acts as an intermediary between the controllers and the
+    UserRepository, facilitating user-related operations.
+    """
+
     @inject
     def __init__(self, user_repo: UserRepository):
+        """
+        Initializes the UserService with a UserRepository instance.
+
+        Args:
+            user_repo (UserRepository): An instance of UserRepository to
+                                        perform database operations.
+        """
         self._user_repo = user_repo
 
     async def get_user(self, user_id: UUID) -> UserModel:
         """
-        Get user by id
+        Retrieves a user by their unique identifier (UUID).
+
         Args:
-            user_id: user id
+            user_id (UUID): The unique identifier of the user to retrieve.
 
         Returns:
-            UserModel: user model instance
+            UserModel: An instance of UserModel containing the user's data.
+
         """
+        # Fetch user model from the user repository.
         model = await self._user_repo.get_user(user_id)
         return model

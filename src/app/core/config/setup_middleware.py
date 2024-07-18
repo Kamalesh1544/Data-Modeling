@@ -7,6 +7,17 @@ from src.app.core.config.settings import get_settings
 
 
 def setup_middleware(app: FastAPI):
+    """
+    Set up middleware for the FastAPI application.
+    
+    Args:
+        app (FastAPI): The FastAPI application instance.
+
+    Middleware:
+        - CORS: Configured based on settings.ORIGINS.
+        - TrustedHost: Configured with allowed hosts from settings.ALLOWED_HOST.
+        - GZip: Applied with a minimum size of 1000 bytes.
+    """
     settings = get_settings()
     # init cors
     app.add_middleware(
