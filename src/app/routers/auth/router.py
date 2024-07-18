@@ -9,13 +9,12 @@ from src.app.utils.schemas.user_schemas import UserSchema
 from src.app.utils.swagger_helper import generate_swagger_responses
 
 router = APIRouter(
-    prefix="/user",
     tags=['User']
 )
 
 
 @router.get(
-    "/{user_id}",
+    "/v1/user/{user_id}",
     responses=generate_swagger_responses(UserModel),
     summary="Get user details",
     description="Get user details by user id",

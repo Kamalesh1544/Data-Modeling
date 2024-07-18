@@ -18,7 +18,7 @@ def setup_middleware(app: FastAPI):
     )
 
     app.add_middleware(
-        TrustedHostMiddleware, allowed_hosts=settings.ALLOWED_HOSTS.split(",")
+        TrustedHostMiddleware, allowed_hosts=settings.ALLOWED_HOST.split(",")
     )
 
     app.add_middleware(GZipMiddleware, minimum_size=1000)
