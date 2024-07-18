@@ -1,7 +1,7 @@
 from functools import lru_cache
-from typing import Optional
 
 from pydantic_settings import BaseSettings
+
 
 IS_PRODUCTION = False
 LOGGER_NAME = "exception"
@@ -9,10 +9,11 @@ LOGGER_NAME = "exception"
 
 class Settings(BaseSettings):
     """
-        Define settings for the application including app name, 
-        version, mode, log level, CORS configuration, database configuration, 
-        Redis configuration, email configuration, and Celery configuration.
+    Define settings for the application including app name,
+    version, mode, log level, CORS configuration, database configuration,
+    Redis configuration, email configuration, and Celery configuration.
     """
+
     APP_NAME: str
     APP_VERSION: str
     MODE: str
@@ -37,11 +38,11 @@ class Settings(BaseSettings):
     #################################
     ###### Database Config ##########
     #################################
-    POSTGRES_HOST: Optional[str]
-    POSTGRES_USER: Optional[str]
-    POSTGRES_PASSWORD: Optional[str]
-    POSTGRES_DB: Optional[str]
-    POSTGRES_PORT: Optional[str]
+    POSTGRES_HOST: str | None
+    POSTGRES_USER: str | None
+    POSTGRES_PASSWORD: str | None
+    POSTGRES_DB: str | None
+    POSTGRES_PORT: str | None
 
     #################################
     ###### REDIS Config ##########
@@ -85,15 +86,19 @@ class Settings(BaseSettings):
 # settings = Settings()
 # logger = logging.getLogger(settings.MODE)
 
-@lru_cache()
+
+@lru_cache
 def get_settings() -> Settings:
     """
     Retrieve and return the application settings.
     If not in production, load settings from a specific environment file.
     Returns:
-        Settings: An instance of the Settings class containing application configurations.
+        Settings: An instance of the Settings class containing
+        application configurations.
     """
     if not IS_PRODUCTION:
-        return Settings(_env_file='/home/shudipto/PycharmProjects/Fastapi-Starter/.env')
+        return Settings(
+            _env_file="/home/shudipto/PycharmProjects/Fastapi-Starter/.env"
+        )
 
     return Settings()

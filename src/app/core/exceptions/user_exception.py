@@ -2,20 +2,22 @@ from src.app.core.exceptions.general_exception import GeneralException
 
 
 class UserAccountError(GeneralException):
-
-    def __init__(self, message="User account is disabled, please contact support", error_code="USER_ACCOUNT_DISABLE"):
+    def __init__(
+        self,
+        message="User account is disabled, please contact support",
+        error_code="USER_ACCOUNT_DISABLE",
+    ):
         self.message = message
         self.status_code = 403
         self.error_code = error_code
         super().__init__(
             message=self.message,
             status_code=self.status_code,
-            error_code=self.error_code
+            error_code=self.error_code,
         )
 
 
 class UserPermissionError(GeneralException):
-
     def __init__(self, message="user don't have sufficient permission"):
         self.message = message
         self.status_code = 403
@@ -23,5 +25,5 @@ class UserPermissionError(GeneralException):
         super().__init__(
             message=self.message,
             status_code=self.status_code,
-            error_code=self.error_code
+            error_code=self.error_code,
         )

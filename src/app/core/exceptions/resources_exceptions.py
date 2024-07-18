@@ -9,5 +9,5 @@ class ResourceNotFoundError(GeneralException):
         super().__init__(
             message=self.message,
             status_code=self.status_code,
-            error_code=self.error_code
+            error_code=self.error_code,
         )

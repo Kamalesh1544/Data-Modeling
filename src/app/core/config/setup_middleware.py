@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from starlette.middleware.cors import CORSMiddleware
-from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from starlette.middleware.cors import CORSMiddleware
 
 from src.app.core.config.settings import get_settings
 
@@ -9,7 +9,7 @@ from src.app.core.config.settings import get_settings
 def setup_middleware(app: FastAPI):
     """
     Set up middleware for the FastAPI application.
-    
+
     Args:
         app (FastAPI): The FastAPI application instance.
 

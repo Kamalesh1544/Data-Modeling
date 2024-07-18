@@ -15,13 +15,14 @@ from src.app.core.exceptions.handle_errors import init_errors_handler
 from src.app.db.setup_database import setup_db
 from src.app.routers.setup_router import init_routes
 
+
 settings = get_settings()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Load the cache
-    rc = RedisCacheBackend(settings.REDIS_URL)
+    RedisCacheBackend(settings.REDIS_URL)
     yield
     # Clean up
     await close_caches()
@@ -32,13 +33,14 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
-    debug=settings.MODE == 'DEVELOPMENT',
+    debug=settings.MODE == "DEVELOPMENT",
     summary=settings.SUMMARY,
     docs_url="/docs",
     redoc_url="/redocs",
     default_response_class=ORJSONResponse,
-    lifespan=lifespan
+    lifespan=lifespan,
 )
+
 setup_middleware(app)
 
 setup_db(app)

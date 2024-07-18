@@ -38,5 +38,4 @@ class UserService:
 
         """
         # Fetch user model from the user repository.
-        model = await self._user_repo.get_user(user_id)
-        return model
+        return await self._user_repo.get_user(user_id)

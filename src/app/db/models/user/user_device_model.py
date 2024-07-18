@@ -1,4 +1,4 @@
-from tortoise import models, fields
+from tortoise import fields, models
 from tortoise.contrib.pydantic import pydantic_model_creator
 
 from src.app.db.models.inheritance_model import TimestampMixin
@@ -11,7 +11,9 @@ class UserDeviceTable(TimestampMixin, models.Model):
     device_id = fields.CharField(max_length=100, default="")
     location = fields.CharField(max_length=100, default="")
 
-    user = fields.ForeignKeyField(UserTableConst.USER_TABLE, related_name="device_user")
+    user = fields.ForeignKeyField(
+        UserTableConst.USER_TABLE, related_name="device_user"
+    )
 
     def __str__(self):
         return self.device_name
@@ -23,4 +25,6 @@ class UserDeviceTable(TimestampMixin, models.Model):
         exclude = ["created_at", "updated_at", "status"]
 
 
-UserDeviceModel = pydantic_model_creator(UserDeviceTable, name="UserDeviceTable")
+UserDeviceModel = pydantic_model_creator(
+    UserDeviceTable, name="UserDeviceTable"
+)

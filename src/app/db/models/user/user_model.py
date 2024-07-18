@@ -7,7 +7,9 @@ from src.app.db.models.user.user_constants import UserTypesConst
 
 class UserTable(TimestampMixin, models.Model):
     user_id = fields.UUIDField(pk=True, generated=False)
-    email = fields.CharField(index=True, unique=True, null=False, max_length=255)
+    email = fields.CharField(
+        index=True, unique=True, null=False, max_length=255
+    )
     fullname = fields.CharField(max_length=1000, default="")
     phone = fields.CharField(max_length=100, default="")
     token = fields.CharField(max_length=1000, default="", index=True)

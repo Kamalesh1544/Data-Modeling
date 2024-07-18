@@ -111,3 +111,5 @@ cython_debug/
 # remove ide config
 .idea
 .vscode
+# Add this line to your .gitignore file
+.ruff_cache/

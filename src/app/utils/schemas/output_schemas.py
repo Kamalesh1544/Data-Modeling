@@ -1,8 +1,9 @@
-from typing import Generic, TypeVar, Optional
+from typing import Generic, TypeVar
 
 from pydantic import BaseModel, Field
 
-T = TypeVar('T')
+
+T = TypeVar("T")
 
 
 class ErrorSchemas(BaseModel):
@@ -18,10 +19,10 @@ class ErrorOutputSchema(BaseModel):
 
 
 class ErrorResponse(BaseModel):
-    error: ErrorOutputSchema = None
+    error: ErrorOutputSchema | None = None
     metadata: dict = Field({}, title="Metadata")
 
 
 class SuccessResponse(BaseModel, Generic[T]):
-    data: T = None
+    data: T | None = None
     metadata: dict = Field({}, title="Metadata")

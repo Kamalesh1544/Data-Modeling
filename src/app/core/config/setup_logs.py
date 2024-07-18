@@ -5,7 +5,8 @@ from fastapi.logger import logger as fastapi_logger
 
 def init_logger(level):
     """
-    Initialize loggers for different components with the specified logging level.
+    Initialize loggers for different components with the
+    specified logging level.
 
     Args:
     - level: The logging level to set for all loggers.
@@ -40,3 +41,6 @@ def init_logger(level):
     logger_tortoise.addHandler(fastapi_logger)
 
     # register custom logger here
+    injector_logging = logging.getLogger("injector")
+    injector_logging.setLevel(logging.DEBUG)
+    injector_logging.addHandler(fastapi_logger)

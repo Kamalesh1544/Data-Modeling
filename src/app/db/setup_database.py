@@ -4,31 +4,36 @@ from tortoise.contrib.fastapi import register_tortoise
 from src.app.core.config.settings import get_settings
 from src.app.db.models.user.user_constants import USER_TABLES
 
+
 TORTOISE_ORM = {
     "connections": {
-        "default":
-            {
-                'engine': 'tortoise.backends.asyncpg',
-                'credentials': {
-                    'host': get_settings().POSTGRES_HOST,
-                    'port': get_settings().POSTGRES_PORT,
-                    'user': get_settings().POSTGRES_USER,
-                    'password': get_settings().POSTGRES_PASSWORD,
-                    'database': get_settings().POSTGRES_DB,
-                    'schema': 'cv',  # choose schema
-                    'minsize': 1,  # Minimum connection pool size
-                    'maxsize': 5,  # Maximum connection pool size
-                    'max_inactive_connection_lifetime': 300,  # Connection timeout
-                    'max_queries': 50000,  # Maximum number of queries before reconnecting
-                }
+        "default": {
+            "engine": "tortoise.backends.asyncpg",
+            "credentials": {
+                "host": get_settings().POSTGRES_HOST,
+                "port": get_settings().POSTGRES_PORT,
+                "user": get_settings().POSTGRES_USER,
+                "password": get_settings().POSTGRES_PASSWORD,
+                "database": get_settings().POSTGRES_DB,
+                # choose schema
+                "schema": "cv",
+                # Minimum connection pool size
+                "minsize": 1,
+                # Maximum connection pool size
+                "maxsize": 5,
+                # Connection timeout
+                "max_inactive_connection_lifetime": 300,
+                # Maximum number of queries before reconnecting
+                "max_queries": 50000,
             },
+        },
     },  # postgresql
-    # "connections": {"default": "mysql://root:123456@127.0.0.1:3306/test"}, # mysql connections
-    # "connections": {"default": "sqlite://:memory:"}, # sqlite in memory database
+    # "connections": {"default": "mysql://root:123456@127.0.0.1:3306/test"},
+    # "connections": {"default": "sqlite://:memory:"},
     # "connections": {"default": "sqlite://./podcast.db"},
     "apps": {
         "models": {
-            "models": USER_TABLES + ["aerich.models"],  # For handling migrations],
+            "models": [*USER_TABLES, "aerich.models"],
             "default_connection": "default",
         },
     },

@@ -1,6 +1,6 @@
 [style]
-based_on_style = pep8
-column_limit = 79
+based_on_style = google
+column_limit = 80
 split_before_logical_operator = true
 split_before_first_argument = true
 split_complex_comprehension = true

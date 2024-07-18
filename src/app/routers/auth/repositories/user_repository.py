@@ -1,10 +1,8 @@
 from uuid import UUID
 
-from fastapi.exceptions import HTTPException
 from injector import singleton
 
-from src.app.core.exceptions.resources_exceptions import ResourceNotFoundError
-from src.app.db.models.user.user_model import UserTable, UserModel
+from src.app.db.models.user.user_model import UserModel, UserTable
 
 
 @singleton
