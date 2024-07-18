@@ -4,6 +4,7 @@ from firebase_admin import auth
 from starlette import status
 from starlette.responses import Response
 
+from src.app.core.exceptions.user_exception import UserAccountError
 from src.app.utils.schemas.user_schemas import UserSchema
 
 
@@ -22,28 +23,24 @@ def get_current_user(
     try:
         decoded_token = auth.verify_id_token(credential.credentials)
     except auth.RevokedIdTokenError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Revoked Token, please login again",
-            headers={"WWW-Authenticate": 'Bearer error="invalid_token"'},
+        raise UserAccountError(
+            message="Invalid token, please login again",
+            error_code="REVOKED_TOKEN"
         )
     except auth.UserDisabledError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Your account has been disabled, please contact support",
-            headers={"WWW-Authenticate": 'Bearer error="invalid_token"'},
+        raise UserAccountError(
+            message="Your account has been disabled, please contact support",
+            error_code="USER_ACCOUNT_DISABLE"
         )
     except auth.InvalidIdTokenError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid Token",
-            headers={"WWW-Authenticate": 'Bearer error="invalid_token"'},
+        raise UserAccountError(
+            message="Invalid token, please login again",
+            error_code="INVALID_TOKEN"
         )
     except Exception as err:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Invalid authentication {err}",
-            headers={"WWW-Authenticate": 'Bearer error="invalid_token"'},
+        raise UserAccountError(
+            message="Invalid token, please login again",
+            error_code="INVALID_TOKEN"
         )
     res.headers["WWW-Authenticate"] = 'Bearer realm="auth_required"'
     return UserSchema(**decoded_token)

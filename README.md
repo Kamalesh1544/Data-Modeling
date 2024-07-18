@@ -5,13 +5,13 @@
 
 
 # DB Migration
-aerich init -t app.db.TORTOISE_ORM
+aerich init -t src.app.db.setup_database.TORTOISE_ORM
 
 
 
 To run this app
 ```
-uvicorn app.main:app --reload
+uvicorn src.app.main:app --reload
 ```
 
 Vscode config
