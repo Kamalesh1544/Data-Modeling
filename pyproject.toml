@@ -33,6 +33,7 @@ lint.select = [
     "T20", # flake8-print
 ]
 lint.ignore = [
+    "E501", # line too long
     "UP006", # https://github.com/charliermarsh/ruff/pull/4427
     "UP007", # https://github.com/charliermarsh/ruff/pull/4427
     # Mutable class attributes should be annotated with `typing.ClassVar`
