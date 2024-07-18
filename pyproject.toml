@@ -6,6 +6,7 @@ src_folder = "./."
 [tool.ruff]
 line-length = 79
 target-version = "py38"
+fixable = ["ALL"]
 lint.select = [
     "E",   # pycodestyle
     "W",  # pycodestyle
