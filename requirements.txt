@@ -45,6 +45,7 @@ google-cloud-storage==2.17.0
 google-crc32c==1.5.0
 google-resumable-media==2.7.1
 googleapis-common-protos==1.63.2
+graphql-core==3.2.3
 greenlet==3.0.3
 grpcio==1.65.1
 grpcio-status==1.62.2
@@ -95,6 +96,7 @@ shellingham==1.5.4
 six==1.16.0
 sniffio==1.3.1
 starlette==0.37.2
+strawberry-graphql==0.236.0
 tomlkit==0.13.0
 tortoise==0.1.1
 tortoise-orm==0.21.4
