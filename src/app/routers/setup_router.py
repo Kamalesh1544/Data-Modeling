@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from .auth import router as auth_router
-from .graphql.router import graphql_app
+from src.app.routers.auth import router as auth_router
+from src.app.routers.graphql.router import graphql_app
 
 
 def init_routes(app: FastAPI):

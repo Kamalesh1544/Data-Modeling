@@ -1,5 +1,5 @@
 import uuid
-from datetime import UTC, datetime
+from datetime import datetime
 
 from fastapi import FastAPI
 from fastapi.middleware.gzip import GZipMiddleware
@@ -15,7 +15,7 @@ class RequestIDMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         # Generate request ID and timestamp
         request_id = str(uuid.uuid4())
-        timestamp = datetime.now(UTC).isoformat()
+        timestamp = datetime.now().isoformat()
 
         # Add request ID and timestamp to request headers
         request.state.request_id = request_id
