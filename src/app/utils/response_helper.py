@@ -1,8 +1,8 @@
 from typing import TypeVar
 
 from fastapi import Request
+from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel
-from starlette.responses import JSONResponse
 
 from src.app.utils.schemas.output_schemas import (
     ErrorOutputSchema,
@@ -24,7 +24,7 @@ def success_response(
         "message": message,
     }
     response: SuccessResponse = SuccessResponse(data=res, metadata=metadata)
-    return JSONResponse(response.model_dump(), status_code=status_code)
+    return ORJSONResponse(response, status_code=status_code)
 
 
 def error_response(
@@ -45,4 +45,4 @@ def error_response(
         ),
         metadata=metadata,
     )
-    return JSONResponse(error.model_dump(), status_code=status_code)
+    return ORJSONResponse(error.model_dump(), status_code=status_code)

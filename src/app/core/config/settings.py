@@ -102,7 +102,7 @@ def get_settings() -> Settings:
     """
     if not IS_PRODUCTION:
         return Settings(
-            _env_file="/home/shudipto/PycharmProjects/Fastapi-Starter/.env"
+            _env_file="./.env",
         )
 
     return Settings()
