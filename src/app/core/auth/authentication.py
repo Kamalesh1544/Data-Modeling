@@ -6,7 +6,7 @@ from firebase_admin import auth
 from starlette.responses import Response
 
 from src.app.core.exceptions.user_exception import UserAccountError
-from src.app.utils.schemas.user_schemas import UserSchema
+from src.app.utils.schemas.user_schemas import AuthUserSchema
 
 
 logger = logging.getLogger("USER_SERVICE")
@@ -17,7 +17,7 @@ def get_current_user(
     credential: HTTPAuthorizationCredentials = Depends(
         HTTPBearer(auto_error=False)
     ),
-) -> UserSchema:
+) -> AuthUserSchema:
     """
     Get the current user based on the provided HTTP
     Authorization credentials.
@@ -68,4 +68,4 @@ def get_current_user(
             error_code="INVALID_TOKEN",
         )
     res.headers["WWW-Authenticate"] = 'Bearer realm="auth_required"'
-    return UserSchema(**decoded_token)
+    return AuthUserSchema(**decoded_token)

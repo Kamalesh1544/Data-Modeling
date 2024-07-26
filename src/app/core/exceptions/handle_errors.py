@@ -27,7 +27,10 @@ def init_errors_handler(app: FastAPI):
     async def http_exception_handler(request: Request, exc: HTTPException):
         logger.error(f"HTTP exception: url: {request.base_url}", exc_info=exc)
         return error_response(
-            request, error_code="HTTPException", message=str(exc.detail)
+            request,
+            error_code="HTTPException",
+            message=str(exc.detail),
+            status_code=exc.status_code,
         )
 
     @app.exception_handler(RequestValidationError)

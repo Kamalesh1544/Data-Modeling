@@ -2,8 +2,8 @@ from uuid import UUID
 
 from injector import inject, singleton
 
-from src.app.db.models.user.user_model import UserModel
-from src.app.routers.auth.repositories.user_repository import UserRepository
+from src.app.routers.auth.repositories.user_repo import UserRepo
+from src.app.routers.auth.schemas.user_schemas import UserSchema
 
 
 @singleton
@@ -16,7 +16,7 @@ class UserService:
     """
 
     @inject
-    def __init__(self, user_repo: UserRepository):
+    def __init__(self, user_repo: UserRepo):
         """
         Initializes the UserService with a UserRepository instance.
 
@@ -26,7 +26,7 @@ class UserService:
         """
         self._user_repo = user_repo
 
-    async def get_user(self, user_id: UUID) -> UserModel:
+    async def get_user(self, user_id: UUID) -> UserSchema:
         """
         Retrieves a user by their unique identifier (UUID).
 

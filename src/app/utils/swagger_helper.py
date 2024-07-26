@@ -78,7 +78,7 @@ class _SwaggerError426Schemas(BaseModel):
     )
 
 
-def generate_swagger_responses(model: BaseModel) -> dict[int, dict[str, Any]]:
+def generate_swagger_responses(model: Generic[T]) -> dict[int, dict[str, Any]]:  # type: ignore
     return {
         400: {"model": _SwaggerError400Schemas, "description": "Invalid input"},
         404: {
@@ -95,6 +95,6 @@ def generate_swagger_responses(model: BaseModel) -> dict[int, dict[str, Any]]:
             "description": "Validation error",
         },
         200: {
-            "model": _SwaggerSuccessSchemas[model],
+            "model": _SwaggerSuccessSchemas[model],  # type: ignore
         },
     }

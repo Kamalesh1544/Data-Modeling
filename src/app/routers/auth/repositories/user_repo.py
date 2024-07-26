@@ -2,11 +2,14 @@ from uuid import UUID
 
 from injector import singleton
 
-from src.app.db.models.user.user_model import UserModel, UserTable
+from src.app.db.models.user.user_model import UserTable
+from src.app.routers.auth.schemas.user_schemas import UserSchema
+
+from .abstract_user_repo import UserRepoAbstract
 
 
 @singleton
-class UserRepository:
+class UserRepo(UserRepoAbstract):
     """
     Repository class for user-related database operations.
 
@@ -14,7 +17,7 @@ class UserRepository:
     stored in the database.
     """
 
-    async def get_user(self, user_id: UUID) -> UserModel:
+    async def get_user(self, user_id: UUID) -> UserSchema:
         """
         Retrieves a user by their unique identifier (UUID).
 
@@ -29,4 +32,11 @@ class UserRepository:
         """
         model = await UserTable.get(user_id=user_id)
         # Convert the retrieved database model into a UserModel instance.
-        return await UserModel.from_tortoise_orm(model)
+        return UserSchema(
+            user_id=model.user_id,
+            email=model.email,
+            fullname=model.fullname,
+            phone=model.phone,
+            token=model.token,
+            type=model.type,
+        )

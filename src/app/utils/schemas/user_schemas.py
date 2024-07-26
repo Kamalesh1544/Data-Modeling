@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class UserSchema(BaseModel):
+class AuthUserSchema(BaseModel):
     name: str
     role: str
     company: int
