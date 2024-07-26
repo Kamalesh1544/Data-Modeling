@@ -4,7 +4,7 @@ from src.app.core.auth.authentication import get_current_user
 from src.app.main import app, injector
 from src.app.routers.auth.repositories.user_repo import UserRepo
 from src.app.utils.schemas.user_schemas import AuthUserSchema
-from src.test.fake_data.fake_user_repo import FakeUserRepo
+from src.tests.fake_data.fake_user_repo import FakeUserRepo
 
 
 client = TestClient(app)

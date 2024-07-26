@@ -89,3 +89,8 @@ convention = "google"
 
 #[tool.mypy]
 #plugins = ["strawberry.ext.mypy_plugin"]
+
+[tool.pytest.ini_options]
+env = [
+    "ENVIRONMENT=pytest",
+]
