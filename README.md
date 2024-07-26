@@ -169,3 +169,8 @@ We use pre-commit hooks to ensure code quality. To set them up:
 
 
 https://keda.sh/
+
+Get all the fixers
+pytest --fixtures
+https://www.tutorialspoint.com/pytest/pytest_run_tests_in_parallel.htm
+taskiq worker src.app.worker:broker -fsd -tp '**/*_tasks.py' --reload

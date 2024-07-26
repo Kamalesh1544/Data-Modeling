@@ -7,7 +7,7 @@ from src.app.db.models.user.user_constants import USER_TABLES
 
 TORTOISE_ORM = {
     "connections": {
-        "default": {
+        "master": {
             "engine": "tortoise.backends.asyncpg",
             "credentials": {
                 "host": get_settings().POSTGRES_HOST,
@@ -31,10 +31,11 @@ TORTOISE_ORM = {
     # "connections": {"default": "mysql://root:123456@127.0.0.1:3306/test"},
     # "connections": {"default": "sqlite://:memory:"},
     # "connections": {"default": "sqlite://./podcast.db"},
+    "routers": ["src.app.db.router.Router"],
     "apps": {
         "models": {
             "models": [*USER_TABLES, "aerich.models"],
-            "default_connection": "default",
+            "default_connection": "master",
         },
     },
 }

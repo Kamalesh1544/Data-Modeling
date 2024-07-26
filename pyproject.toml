@@ -79,8 +79,8 @@ line-ending = "auto"
 docstring-code-format = true
 
 [tool.bandit]
-exclude_dirs = ["*/test/*", "*/tests/*", "*/migrations"]
-skips = ["B101", "B611", "B601", "B608","B601"]
+exclude_dirs = ["*/tests/*", "*/migrations"]
+skips = ["B101", "B611", "B601", "B608"]
 
 
 [tool.ruff.lint.pydocstyle]
@@ -94,3 +94,12 @@ convention = "google"
 env = [
     "ENVIRONMENT=pytest",
 ]
+testpaths = [
+    "src/tests/*",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning"
+]
+
+[tool.pytest-env]
+ENVIRONMENT = "pytest"

@@ -10,11 +10,13 @@ from src.app.routers.auth.services.user_services import UserService
 
 @pytest.fixture
 def user_repo_mock():
+    """Fixture for user repo mock."""
     return AsyncMock(spec=UserRepo)
 
 
 @pytest.fixture
 def user_service(user_repo_mock):
+    """Fixture for user service."""
     return UserService(user_repo_mock)
 
 
