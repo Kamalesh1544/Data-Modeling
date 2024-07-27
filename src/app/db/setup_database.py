@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 
 from src.app.core.config.settings import get_settings
-from src.app.db.models.user.user_constants import USER_TABLES
+from src.app.db.tables.user.user_constants import USER_TABLES
 
 
 TORTOISE_ORM = {
@@ -33,7 +33,7 @@ TORTOISE_ORM = {
     # "connections": {"default": "sqlite://./podcast.db"},
     "routers": ["src.app.db.router.Router"],
     "apps": {
-        "models": {
+        "tables": {
             "models": [*USER_TABLES, "aerich.models"],
             "default_connection": "master",
         },

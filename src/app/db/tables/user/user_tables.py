@@ -1,7 +1,7 @@
 from tortoise import fields, models
 
-from src.app.db.models.inheritance_model import TimestampMixin
-from src.app.db.models.user.user_constants import UserTypesConst
+from src.app.db.tables.inheritance_table import TimestampMixin
+from src.app.db.tables.user.user_constants import UserTypesConst
 
 
 class UserTable(TimestampMixin, models.Model):
@@ -23,6 +23,3 @@ class UserTable(TimestampMixin, models.Model):
 
     class PydanticMeta:
         exclude = ["created_at", "status"]
-
-
-# UserModel = pydantic_model_creator(UserTable, name="User")

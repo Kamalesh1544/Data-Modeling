@@ -2,7 +2,7 @@ from uuid import UUID
 
 from injector import singleton
 
-from src.app.db.models.user.user_model import UserTable
+from src.app.db.tables.user.user_tables import UserTable
 from src.app.routers.auth.schemas.user_schemas import UserSchema
 
 from .abstract_user_repo import UserRepoAbstract
