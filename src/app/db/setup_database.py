@@ -33,7 +33,7 @@ TORTOISE_ORM = {
     # "connections": {"default": "sqlite://./podcast.db"},
     "routers": ["src.app.db.router.Router"],
     "apps": {
-        "tables": {
+        "models": {
             "models": [*USER_TABLES, "aerich.models"],
             "default_connection": "master",
         },
