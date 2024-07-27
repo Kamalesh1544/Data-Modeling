@@ -1,4 +1,4 @@
-from src.tests.intregration_tests.test_main import client
+from src.tests.integration_tests.test_main import client
 
 
 # ruff: noqa: PLR2004
