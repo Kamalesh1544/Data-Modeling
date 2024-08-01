@@ -61,16 +61,6 @@ class Settings(BaseSettings):
     # MAIL_SSL: bool
     # USE_CREDENTIALS: bool
 
-    #################################
-    ###### Celery Config ############
-    #################################
-    CELERY_BROKER: str
-    CELERY_BACKEND: str
-    #################################
-    ###### sentry Config ############
-    #################################
-    SENTRY_DSN: str
-
     # Create Email Config
     # using FastAPI Mail
     # def email_config(self) -> ConnectionConfig:

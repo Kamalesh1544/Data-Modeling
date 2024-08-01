@@ -18,9 +18,7 @@ class MonitoringMiddleware(TaskiqMiddleware):
         logger.info(f"PRE EXECUTE: {message.task_id}")
         return message
 
-    def post_save(
-        self, message: "TaskiqMessage", result: "TaskiqResult[Any]"
-    ) -> None:
+    def post_save(self, message: "TaskiqMessage", result: "TaskiqResult[Any]") -> None:
         logger.info(f"Saved Task: {message.task_id}")
         logger.debug(f"Result: {result.return_value}")
 
@@ -30,9 +28,7 @@ class MonitoringMiddleware(TaskiqMiddleware):
         result: "TaskiqResult[Any]",
         exception: BaseException,
     ) -> None:
-        logger.error(
-            f"Exception on task: {message.task_id}", exc_info=exception
-        )
+        logger.error(f"Exception on task: {message.task_id}", exc_info=exception)
         logger.error(
             f"Exception on task {message.task_id} Result: "
             f"{result.return_value if result else None}"

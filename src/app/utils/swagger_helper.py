@@ -1,3 +1,8 @@
+"""
+Swagger Helper Module
+Contains helper functions to generate Swagger Responses
+"""
+
 import uuid
 from datetime import datetime
 from typing import Any, Generic, TypeVar
@@ -10,10 +15,15 @@ from src.app.utils.schemas.output_schemas import (
 )
 
 
+# Generic Type Variable
 T = TypeVar("T")
 
 
 class _SwaggerSuccessSchemas(BaseModel, Generic[T]):
+    """
+    Swagger Success Response Schema
+    """
+
     data: T
     metadata: dict = {
         "message": "Success",
@@ -22,7 +32,34 @@ class _SwaggerSuccessSchemas(BaseModel, Generic[T]):
     }
 
 
+class _SwaggerSuccessPaginationSchemas(BaseModel, Generic[T]):
+    data: T
+    metadata: dict = {
+        "message": "Success",
+        "request_id": uuid.uuid4().hex,
+        "timestamp": datetime.now().isoformat(),
+        "pagination": {
+            "total": 100,
+            "offset": 0,
+            "limit": 10,
+        },
+    }
+
+
 class _SwaggerError400Schemas(BaseModel):
+    metadata: dict = {
+        "message": "Failed",
+        "request_id": uuid.uuid4().hex,
+        "timestamp": datetime.now().isoformat(),
+    }
+    error: ErrorOutputSchema = ErrorOutputSchema(
+        code="BAD_REQUEST",
+        message="Invalid input, please check the input data for any errors",
+        details=[],
+    )
+
+
+class _SwaggerError404Schemas(BaseModel):
     metadata: dict = {
         "message": "Failed",
         "request_id": uuid.uuid4().hex,
@@ -78,11 +115,36 @@ class _SwaggerError426Schemas(BaseModel):
     )
 
 
-def generate_swagger_responses(model: Generic[T]) -> dict[int, dict[str, Any]]:  # type: ignore
+def generate_swagger_responses(
+    model: Generic[T],  # type: ignore
+    show_pagination: bool = False,
+) -> dict[int, dict[str, Any]]:
+    """
+    Generate Swagger Responses Example, based on the provided model.
+    This will generate the following responses:
+    - 400: Invalid input
+    - 404: Resource not found
+    - 401: Authentication failed
+    - 403: Forbidden
+    - 422: Validation error
+    - 200: Success
+
+    The 200 response will be based on the provided model. If show_pagination is True,
+    then the response will have pagination metadata.
+    It will be used to generate redoc and swagger documentation.
+
+    Args:
+        model (T): Base Pydantic Model, which will be used as response. Defaults to None.
+        show_pagination (bool, optional): Show Pagination in Swagger Response. Defaults to False.
+
+    Returns:
+        dict[int, dict[str, Any]]: Collection of Swagger Responses
+
+    """
     return {
         400: {"model": _SwaggerError400Schemas, "description": "Invalid input"},
         404: {
-            "model": _SwaggerError400Schemas,
+            "model": _SwaggerError404Schemas,
             "description": "Resource not found",
         },
         401: {
@@ -95,6 +157,8 @@ def generate_swagger_responses(model: Generic[T]) -> dict[int, dict[str, Any]]: 
             "description": "Validation error",
         },
         200: {
-            "model": _SwaggerSuccessSchemas[model],  # type: ignore
+            "model": _SwaggerSuccessPaginationSchemas[model]  # type: ignore
+            if show_pagination
+            else _SwaggerSuccessSchemas[model],  # type: ignore
         },
     }

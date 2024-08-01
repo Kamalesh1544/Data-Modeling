@@ -34,12 +34,8 @@ def init_errors_handler(app: FastAPI):
         )
 
     @app.exception_handler(RequestValidationError)
-    async def validation_exception_handler(
-        request: Request, exc: RequestValidationError
-    ):
-        logger.error(
-            f"Value error exception: url: {request.base_url}", exc_info=exc
-        )
+    async def validation_exception_handler(request: Request, exc: RequestValidationError):
+        logger.error(f"Value error exception: url: {request.base_url}", exc_info=exc)
         details = [ErrorSchemas(**error) for error in exc.errors()]
         return error_response(
             request,
@@ -51,9 +47,7 @@ def init_errors_handler(app: FastAPI):
 
     @app.exception_handler(ValueError)
     async def value_exception_handler(request: Request, exc: ValueError):
-        logger.error(
-            f"Value error exception: url: {request.base_url}", exc_info=exc
-        )
+        logger.error(f"Value error exception: url: {request.base_url}", exc_info=exc)
         return error_response(
             request,
             error_code="VALIDATION_ERROR",
@@ -66,9 +60,7 @@ def init_errors_handler(app: FastAPI):
     ########################################
     @app.exception_handler(DoesNotExist)
     async def not_found_exception_handler(request: Request, exc: DoesNotExist):
-        logger.error(
-            f"Not found exception: url: {request.base_url}", exc_info=exc
-        )
+        logger.error(f"Not found exception: url: {request.base_url}", exc_info=exc)
         return error_response(
             request,
             error_code="RESOURCE_NOT_FOUND",
@@ -77,12 +69,8 @@ def init_errors_handler(app: FastAPI):
         )
 
     @app.exception_handler(IntegrityError)
-    async def integrity_exception_handler(
-        request: Request, exc: IntegrityError
-    ):
-        logger.error(
-            f"Integrity exception: url: {request.base_url}", exc_info=exc
-        )
+    async def integrity_exception_handler(request: Request, exc: IntegrityError):
+        logger.error(f"Integrity exception: url: {request.base_url}", exc_info=exc)
         return error_response(
             request,
             error_code="INTEGRITY_ERROR",
@@ -91,12 +79,8 @@ def init_errors_handler(app: FastAPI):
         )
 
     @app.exception_handler(MultipleObjectsReturned)
-    async def multiple_object_exception_handler(
-        request: Request, exc: MultipleObjectsReturned
-    ):
-        logger.error(
-            f"Integrity exception: url: {request.base_url}", exc_info=exc
-        )
+    async def multiple_object_exception_handler(request: Request, exc: MultipleObjectsReturned):
+        logger.error(f"Integrity exception: url: {request.base_url}", exc_info=exc)
         return error_response(
             request,
             error_code="MULTIPLE_OBJECTS_RETURNED",
@@ -108,9 +92,7 @@ def init_errors_handler(app: FastAPI):
     ##### Custom exception handler here ####
     ########################################
     @app.exception_handler(UserAccountError)
-    async def user_account_exception_handler(
-        request: Request, exc: UserAccountError
-    ):
+    async def user_account_exception_handler(request: Request, exc: UserAccountError):
         logger.error(f"UserAccountError: url: {request.base_url}", exc_info=exc)
         return error_response(
             request,
@@ -120,12 +102,8 @@ def init_errors_handler(app: FastAPI):
         )
 
     @app.exception_handler(UserPermissionError)
-    async def user_write_exception_handler(
-        request: Request, exc: UserPermissionError
-    ):
-        logger.error(
-            f"UserPermissionError: url: {request.base_url}", exc_info=exc
-        )
+    async def user_write_exception_handler(request: Request, exc: UserPermissionError):
+        logger.error(f"UserPermissionError: url: {request.base_url}", exc_info=exc)
         return error_response(
             request,
             error_code=exc.error_code,
@@ -134,12 +112,8 @@ def init_errors_handler(app: FastAPI):
         )
 
     @app.exception_handler(ResourceNotFoundError)
-    async def resource_not_found_exception_handler(
-        request: Request, exc: ResourceNotFoundError
-    ):
-        logger.error(
-            f"ResourceNotFoundError: url: {request.base_url}", exc_info=exc
-        )
+    async def resource_not_found_exception_handler(request: Request, exc: ResourceNotFoundError):
+        logger.error(f"ResourceNotFoundError: url: {request.base_url}", exc_info=exc)
         return error_response(
             request,
             error_code=exc.error_code,

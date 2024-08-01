@@ -2,7 +2,6 @@ import os
 
 from fastapi_injector import attach_injector_taskiq
 from injector import Injector
-from redis import ConnectionPool
 from taskiq import (
     InMemoryBroker,
     SimpleRetryMiddleware,
@@ -12,6 +11,7 @@ from taskiq import (
 from taskiq_redis import ListQueueBroker, RedisAsyncResultBackend
 from tortoise import Tortoise
 
+from src.app.core.config.settings import get_settings
 from src.app.core.config.worker_middleware import MonitoringMiddleware
 from src.app.db.setup_database import TORTOISE_ORM
 from src.tests.task_tests.setup import register_fake_repos
@@ -20,13 +20,15 @@ from src.tests.task_tests.setup import register_fake_repos
 env = os.environ.get("ENVIRONMENT")
 _IS_TEST = env and env == "pytest"
 
+settings = get_settings()
+
 redis_async_result = RedisAsyncResultBackend(
-    redis_url="redis://localhost:6379",
+    redis_url=settings.REDIS_URL,
 )
 
 # Or you can use PubSubBroker if you need broadcasting
 broker = ListQueueBroker(
-    url="redis://localhost:6379",
+    url=settings.REDIS_URL,
 ).with_result_backend(redis_async_result)
 broker.add_middlewares(
     [
@@ -52,7 +54,7 @@ async def startup(state: TaskiqState) -> None:
     if _IS_TEST:
         return
     # Here we store connection pool on startup for later use.
-    state.redis = ConnectionPool.from_url("redis://localhost:6379/1")
+    # state.redis = ConnectionPool.from_url("redis://localhost:6379/1")
     # setup database
     await Tortoise.init(config=TORTOISE_ORM)
 

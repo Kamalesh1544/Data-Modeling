@@ -4,7 +4,7 @@ location = "./migrations"
 src_folder = "./."
 
 [tool.ruff]
-line-length = 80
+line-length = 100
 target-version = "py312"
 lint.fixable = ["ALL"]
 lint.select = [
@@ -63,7 +63,7 @@ max-complexity = 10
 "bin/*.py" = ["E402", "S603", "T201", "S101"]
 "*/tests/*.py" = ["E402", "S603", "T201", "S101"]
 "*/test/*.py" = ["E402", "S603", "T201", "S101"]
-"scripts/*.py" = ["E402", "S603", "T201", "S101"]
+"scripts/*.py" = ["E402", "S603", "T201", "S101", "INP001"]
 "*/__init__.py" = ["E402", "S603", "T201", "S101"]
 "*/migrations/*.py" = ["E402", "S603", "T201", "S101"]
 
@@ -79,7 +79,7 @@ line-ending = "auto"
 docstring-code-format = true
 
 [tool.bandit]
-exclude_dirs = ["*/tests/*", "*/migrations"]
+exclude_dirs = ["*/tests/*", "*/migrations", "*/scripts/*"]
 skips = ["B101", "B611", "B601", "B608"]
 
 

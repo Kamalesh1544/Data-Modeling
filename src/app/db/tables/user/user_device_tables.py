@@ -10,9 +10,7 @@ class UserDeviceTable(TimestampMixin, models.Model):
     device_id = fields.CharField(max_length=100, default="")
     location = fields.CharField(max_length=100, default="")
 
-    user = fields.ForeignKeyField(
-        UserTableConst.USER_TABLE, related_name="device_user"
-    )
+    user = fields.ForeignKeyField(UserTableConst.USER_TABLE, related_name="device_user")
 
     def __str__(self):
         return self.device_name

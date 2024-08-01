@@ -33,7 +33,7 @@ TORTOISE_ORM = {
     # "connections": {"default": "sqlite://./podcast.db"},
     "routers": ["src.app.db.router.Router"],
     "apps": {
-        "models": {
+        "tables": {
             "models": [*USER_TABLES, "aerich.models"],
             "default_connection": "master",
         },
@@ -46,6 +46,6 @@ def setup_db(app: FastAPI):
     register_tortoise(
         app,
         config=TORTOISE_ORM,
-        generate_schemas=True,
-        add_exception_handlers=True,
+        generate_schemas=False,
+        add_exception_handlers=False,
     )

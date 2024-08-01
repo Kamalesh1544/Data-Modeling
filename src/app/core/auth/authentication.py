@@ -14,9 +14,7 @@ logger = logging.getLogger("USER_SERVICE")
 
 def get_current_user(
     res: Response,
-    credential: HTTPAuthorizationCredentials = Depends(
-        HTTPBearer(auto_error=False)
-    ),
+    credential: HTTPAuthorizationCredentials = Depends(HTTPBearer(auto_error=False)),
 ) -> AuthUserSchema:
     """
     Get the current user based on the provided HTTP
