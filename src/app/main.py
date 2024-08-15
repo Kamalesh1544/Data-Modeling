@@ -2,8 +2,6 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
-from fastapi_cache import close_caches
-from fastapi_cache.backends.redis import RedisCacheBackend
 from fastapi_injector import attach_injector
 from injector import Injector
 from tortoise import Tortoise
@@ -22,10 +20,10 @@ settings = get_settings()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Load the cache
-    RedisCacheBackend(settings.REDIS_URL)
+    # RedisCacheBackend(settings.REDIS_URL)
     yield
     # Clean up
-    await close_caches()
+    # await close_caches()
     # close all the connections
     await Tortoise.close_connections()
 
