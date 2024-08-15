@@ -143,34 +143,30 @@ Add the following configuration to your `.vscode/launch.json` file:
 }
 ```
 Then you can run and debug the application using the VS Code debugger.
-
+### Run the Broker
+1. Run the taskiq worker
+```taskiq worker src.app.worker:broker -fsd -tp 'src/**/*_tasks.py' --reload
+```
 ## Development
 
 ### Pre-commit Hooks
 We use pre-commit hooks to ensure code quality. To set them up:
-
 1. Install the pre-commit package:
     ```bash
     pip install pre-commit
     ```
-
 2. Install the git hook scripts:
     ```bash
     pre-commit install
     ```
-
 ### Code Style
     1.ruff,
     2.mypy,
     3.bandit
-
 ## Testing
     1.pytest
-
-
 https://keda.sh/
-
 Get all the fixers
 pytest --fixtures
-https://www.tutorialspoint.com/pytest/pytest_run_tests_in_parallel.htm
-taskiq worker src.app.worker:broker -fsd -tp '**/*_tasks.py' --reload
+https://www.tutorialspoint.com/pytest/pytest_run_tests_in_parallel.html
+
