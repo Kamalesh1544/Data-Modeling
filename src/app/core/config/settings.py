@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     # NOTSET = 0
     LOG_LEVEL: int
 
-    SUMMARY: str = "User Management API"
+    SUMMARY: str = "Backend Base"
 
     #################################
     ###### CORS Config ##############
@@ -48,6 +48,10 @@ class Settings(BaseSettings):
     ###### REDIS Config ##########
     #################################
     REDIS_URL: str
+    ###############################
+    # OPEN AI
+    ###############################
+    OPENAI_API_KEY: str
 
     #################################
     ###### EMAIL Config ##########
@@ -60,6 +64,27 @@ class Settings(BaseSettings):
     # MAIL_TLS: bool
     # MAIL_SSL: bool
     # USE_CREDENTIALS: bool
+
+    #################################
+    ###### sentry Config ############
+    #################################
+    SENTRY_DSN: str
+
+    ##############################################
+    ################## NEO4J #####################
+    ##############################################
+    GRAPH_URL: str
+    GRAPH_USER: str
+    GRAPH_PASSWORD: str
+    NEO4J_AUTH: str
+    NEO4J_ACCEPT_LICENSE_AGREEMENT: str
+    NEO4J_PLUGINS: list
+    NEO4J_dbms_security_procedures_allowlist: str
+    NEO4J_dbms_security_procedures_unrestricted: str
+    NEO4J_server_memory_heap_initial__size: str
+    NEO4J_server_memory_heap_max__size: str
+    NEO4J_server_memory_pagecache_size: str
+    NEO4J_apoc_export_file_enabled: bool
 
     # Create Email Config
     # using FastAPI Mail

@@ -35,10 +35,11 @@ async def user_details(
         y=5,
     )
     logger.info(res2.task_id)
+
     #
     # res3: AsyncTaskiqTask = await post_processing_user.kiq(
     #     user_id=5
     # )
     # print(res3.task_id)
-    res = await service.get_user(user_id)
-    return success_response(res, request)
+    # res = await service.get_user(user_id)
+    return success_response({"message": "success"}, request)
