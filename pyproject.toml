@@ -46,6 +46,7 @@ lint.ignore = [
     "B904",
     #Do not perform function call `Injected` in argument defaults
     "B008",
+    "ISC001",# flake8-implicit-str-concat
 ]
 exclude = [
     "migrations/*",  # Exclude the migrations folder
@@ -70,7 +71,8 @@ max-complexity = 10
 [tool.ruff.lint.isort]
 lines-after-imports = 2
 known-first-party = ["src"]
-
+[tool.ruff.lint.pylint]
+max-args = 10
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
@@ -103,3 +105,4 @@ filterwarnings = [
 
 [tool.pytest-env]
 ENVIRONMENT = "pytest"
+
