@@ -1,46 +1,72 @@
 import orjson
 import strawberry
 from fastapi import Depends, Request
-from strawberry.fastapi import BaseContext, GraphQLRouter
+from strawberry.fastapi import GraphQLRouter
 from strawberry.http import GraphQLHTTPResponse
 from strawberry.schema.config import StrawberryConfig
 from strawberry.types import ExecutionResult
 
+from src.app.core.auth.authentication import get_current_user
+from src.app.routers.graphql.context import CustomContext
 from src.app.routers.graphql.schemas.query_schemas import Query
 from src.app.utils.response_helper import error_response, success_response
 from src.app.utils.schemas.output_schemas import ErrorSchemas
+from src.app.utils.schemas.user_schemas import AuthUserSchema
 
 
 class MyGraphQLRouter(GraphQLRouter):
     async def process_result(
         self, request: Request, result: ExecutionResult
     ) -> GraphQLHTTPResponse:
+        """
+        Overwrite the default process_result to return a GraphQLHTTPResponse with
+        error details if there are errors in the result.
+
+        Args:
+            request (Request): The FastAPI request object.
+            result (ExecutionResult): The result of the GraphQL query.
+
+        Returns:
+            GraphQLHTTPResponse: The processed GraphQLHTTPResponse object.
+        """
         if result.errors:
-            response = error_response(
-                request,
-                "VALIDATION_ERROR",
-                details=[
-                    ErrorSchemas(loc=err.path, msg=err.formatted.get("message"))
-                    for err in result.errors
-                ],
+            return orjson.loads(
+                error_response(
+                    request,
+                    "VALIDATION_ERROR",
+                    details=[
+                        ErrorSchemas(
+                            loc=err.path,
+                            msg=err.formatted.get("message"),
+                            type=err.formatted.get("type", ""),
+                        )
+                        for err in result.errors
+                    ],
+                ).body
             )
-        response = success_response(result.data, request)
-        return orjson.loads(response.body)
+        return orjson.loads(success_response(result.data, request).body)
 
 
-class CustomContext(BaseContext):
-    def __init__(self, greeting: str, name: str):
-        self.greeting = greeting
-        self.name = name
+async def custom_context_dependency(
+    request: Request, user: AuthUserSchema = Depends(get_current_user)
+) -> CustomContext:
+    """
+    Generate a CustomContext object based on the request and user.
 
+    Args:
+        request (Request): The FastAPI request object.
+        user (AuthUserSchema): The authenticated user information.
 
-def custom_context_dependency() -> CustomContext:
-    return CustomContext(greeting="you rock!", name="John Doe")
+    Returns:
+        CustomContext: The generated CustomContext object.
+
+    """
+    return CustomContext(request, user)
 
 
 async def get_context(
-    custom_context=Depends(custom_context_dependency),
-):
+    custom_context: CustomContext = Depends(custom_context_dependency),
+) -> CustomContext:
     return custom_context
 
 
