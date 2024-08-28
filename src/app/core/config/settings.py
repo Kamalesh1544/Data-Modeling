@@ -100,6 +100,9 @@ class Settings(BaseSettings):
     #         USE_CREDENTIALS=self.USE_CREDENTIALS
     #     )
 
+    class Config:
+        extra = "allow"
+
 
 # create a single instance of the settings
 # settings = Settings()
