@@ -2,6 +2,7 @@ from uuid import UUID
 
 from injector import inject, singleton
 
+from src.app.core import logger
 from src.app.routers.auth.repositories import UserRepo
 from src.app.routers.auth.schemas import UserSchema
 
@@ -38,4 +39,5 @@ class UserService:
 
         """
         # Fetch user model from the user repository.
+        logger.debug(f"Fetching user with ID: {user_id}")
         return await self._user_repo.get_user(user_id)

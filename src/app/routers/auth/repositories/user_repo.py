@@ -2,6 +2,7 @@ from uuid import UUID
 
 from injector import singleton
 
+from src.app.core import logger
 from src.app.db import UserTable
 from src.app.routers.auth.schemas import UserSchema
 
@@ -32,6 +33,7 @@ class UserRepo(UserRepoAbstract):
         """
         model = await UserTable.get(user_id=user_id)
         # Convert the retrieved database model into a UserModel instance.
+        logger.debug(f"Retrieved user: {model} from the database with ID: {user_id}")
         return UserSchema(
             user_id=model.user_id,
             email=model.email,

@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 
-from src.app.core.config.settings import get_settings
+from src.app.core import get_settings, logger
 from src.app.db.tables.user_constants import USER_TABLES
 
 
@@ -61,3 +61,5 @@ def setup_db(app: FastAPI):
         generate_schemas=False,
         add_exception_handlers=False,
     )
+
+    logger.info("Database setup complete")

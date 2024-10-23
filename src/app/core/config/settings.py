@@ -144,11 +144,6 @@ class Settings(BaseSettings):
         extra = "allow"
 
 
-# create a single instance of the settings
-# settings = Settings()
-# logger = logging.getLogger(settings.MODE)
-
-
 @lru_cache
 def get_settings() -> Settings:
     """
@@ -159,8 +154,10 @@ def get_settings() -> Settings:
         application configurations.
     """
     if not IS_PRODUCTION:
+        logger.info("Loading settings from .env file")
         return Settings(
             _env_file="./.env",
         )
 
+    logger.debug("Loading settings from environment variables")
     return Settings()

@@ -3,7 +3,7 @@ from fastapi import Depends
 from sentry_sdk.integrations.fastapi import FastApiIntegration
 from sentry_sdk.integrations.starlette import StarletteIntegration
 
-from src.app.core.config.settings import Settings, get_settings
+from src.app.core import Settings, get_settings, logger
 
 
 def init_sentry(settings: Settings = Depends(get_settings)):
@@ -35,3 +35,4 @@ def init_sentry(settings: Settings = Depends(get_settings)):
         traces_sample_rate=1.0,
         profiles_sample_rate=1.0,
     )
+    logger.debug("Sentry initialized")

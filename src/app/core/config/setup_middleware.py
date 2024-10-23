@@ -8,7 +8,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 
-from src.app.core import get_settings
+from src.app.core import get_settings, logger
 
 
 class RequestIDMiddleware(BaseHTTPMiddleware):
@@ -56,6 +56,7 @@ class RequestIDMiddleware(BaseHTTPMiddleware):
         # Add request ID and timestamp to request headers
         request.state.request_id = request_id
         request.state.timestamp = timestamp
+        logger.debug(f"Requesting: Request ID: {request_id}, Timestamp: {timestamp}")
 
         # Proceed with the request
         response = await call_next(request)
@@ -63,6 +64,7 @@ class RequestIDMiddleware(BaseHTTPMiddleware):
         # Add request ID and timestamp to response headers for logging
         response.headers["X-Request-ID"] = request_id
         response.headers["X-Timestamp"] = timestamp
+        logger.debug(f"Response: Request ID: {request_id}, Timestamp: {timestamp}")
 
         return response
 
@@ -95,3 +97,4 @@ def setup_middleware(app: FastAPI):
 
     # Note: If you need streaming responses, you should not use GZipMiddleware.
     app.add_middleware(GZipMiddleware, minimum_size=1000)
+    logger.debug("Middleware set up")

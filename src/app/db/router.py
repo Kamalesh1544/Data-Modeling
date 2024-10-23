@@ -1,5 +1,7 @@
 from tortoise import Model
 
+from src.app.core import logger
+
 
 class Router:
     """
@@ -14,7 +16,9 @@ class Router:
     """
 
     def db_for_read(self, model: type[Model]):
+        logger.debug(f"Reading from database: {model}")
         return "master"
 
     def db_for_write(self, model: type[Model]):
+        logger.debug(f"Writing to database: {model}")
         return "master"
