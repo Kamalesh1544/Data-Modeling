@@ -1,10 +1,14 @@
+import logging
 from functools import lru_cache
 
 from pydantic_settings import BaseSettings
 
 
 IS_PRODUCTION = False
-LOGGER_NAME = "exception"
+# TODO: Change the logger name to the appropriate name
+LOGGER_NAME = "BACKEND_BASE"
+
+logger = logging.getLogger(LOGGER_NAME)
 
 
 class Settings(BaseSettings):

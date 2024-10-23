@@ -2,8 +2,8 @@ from uuid import UUID
 
 from injector import inject, singleton
 
-from src.app.routers.auth.repositories.user_repo import UserRepo
-from src.app.routers.auth.schemas.user_schemas import UserSchema
+from src.app.routers.auth.repositories import UserRepo
+from src.app.routers.auth.schemas import UserSchema
 
 
 @singleton

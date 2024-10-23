@@ -2,6 +2,8 @@ import os
 
 from fastapi_injector import attach_injector_taskiq
 from injector import Injector
+from redis.asyncio import Redis
+from snowflakeid import SnowflakeIDConfig, SnowflakeIDGenerator
 from taskiq import (
     InMemoryBroker,
     SimpleRetryMiddleware,
@@ -11,10 +13,10 @@ from taskiq import (
 from taskiq_redis import ListQueueBroker, RedisAsyncResultBackend
 from tortoise import Tortoise
 
-from src.app.core.config.settings import get_settings
+from src.app.core import get_settings, logger
 from src.app.core.config.worker_middleware import MonitoringMiddleware
-from src.app.db.setup_database import TORTOISE_ORM
-from src.tests.task_tests.setup import register_fake_repos
+from src.app.db import TORTOISE_ORM
+from src.tests import register_fake_repos
 
 
 env = os.environ.get("ENVIRONMENT")
@@ -29,6 +31,7 @@ redis_async_result = RedisAsyncResultBackend(
 # Or you can use PubSubBroker if you need broadcasting
 broker = ListQueueBroker(
     url=settings.REDIS_URL,
+    queue_name=f"{settings.APP_NAME}-queue",
 ).with_result_backend(redis_async_result)
 broker.add_middlewares(
     [
@@ -42,19 +45,40 @@ broker.add_middlewares(
 if _IS_TEST:
     broker = InMemoryBroker()
 
+redis_client = Redis(
+    host=settings.REDIS_HOST,
+    port=settings.REDIS_PORT,
+    # password=settings.REDIS_PASSWORD,
+    # db=settings.REDIS_DB,
+)
+
+# Setup id generator
+config = SnowflakeIDConfig(
+    epoch=1609459200000,
+    node_id=1,
+    worker_id=1,
+    time_bits=39,
+    node_bits=5,
+    worker_bits=8,
+)
+
 # setup injection
 injector = Injector()
 attach_injector_taskiq(broker.state, injector=injector)
 if _IS_TEST:
     register_fake_repos(injector)
 
+# save into injector
+injector.binder.bind(SnowflakeIDGenerator, SnowflakeIDGenerator(config=config))
+injector.binder.bind(Redis, redis_client)
+
 
 @broker.on_event(TaskiqEvents.WORKER_STARTUP)
 async def startup(state: TaskiqState) -> None:
     if _IS_TEST:
         return
-    # Here we store connection pool on startup for later use.
-    # state.redis = ConnectionPool.from_url("redis://localhost:6379/1")
+    await redis_client.ping()
+    logger.info("Got redis connection")
     # setup database
     await Tortoise.init(config=TORTOISE_ORM)
 

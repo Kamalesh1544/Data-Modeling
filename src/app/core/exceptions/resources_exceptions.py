@@ -1,4 +1,4 @@
-from src.app.core.exceptions.general_exception import GeneralException
+from .general_exception import GeneralException
 
 
 class ResourceNotFoundError(GeneralException):

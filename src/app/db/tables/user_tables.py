@@ -1,7 +1,7 @@
 from tortoise import fields, models
 
-from src.app.db.tables.inheritance_table import TimestampMixin
-from src.app.db.tables.user.user_constants import UserTypesConst
+from .inheritance_table import TimestampMixin
+from .user_constants import UserTypesConst
 
 
 class UserTable(TimestampMixin, models.Model):

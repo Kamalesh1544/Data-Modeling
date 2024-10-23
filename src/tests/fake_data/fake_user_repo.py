@@ -1,10 +1,10 @@
 from uuid import UUID
 
-from src.app.core.exceptions.resources_exceptions import ResourceNotFoundError
-from src.app.routers.auth.repositories.abstract_user_repo import (
+from src.app.core.exceptions import ResourceNotFoundError
+from src.app.routers.auth.repositories import (
     UserRepoAbstract,
 )
-from src.app.routers.auth.schemas.user_schemas import UserSchema
+from src.app.routers.auth.schemas import UserSchema
 
 
 class FakeUserRepo(UserRepoAbstract):

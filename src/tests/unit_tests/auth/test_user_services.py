@@ -3,9 +3,9 @@ from uuid import UUID
 
 import pytest
 
-from src.app.routers.auth.repositories.user_repo import UserRepo
-from src.app.routers.auth.schemas.user_schemas import UserSchema
-from src.app.routers.auth.services.user_services import UserService
+from src.app.routers.auth.repositories import UserRepo
+from src.app.routers.auth.schemas import UserSchema
+from src.app.routers.auth.services import UserService
 
 
 @pytest.fixture

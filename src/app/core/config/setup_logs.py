@@ -1,4 +1,5 @@
 import logging
+import sys
 
 from fastapi.logger import logger as fastapi_logger
 
@@ -44,3 +45,27 @@ def init_logger(level):
     injector_logging = logging.getLogger("injector")
     injector_logging.setLevel(logging.DEBUG)
     injector_logging.addHandler(fastapi_logger)
+
+    # Register custom logger for coding
+    # TODO: Change the logger name to the appropriate name
+    backend_logging = logging.getLogger("BACKEND_BASE")
+    backend_logging.setLevel(logging.DEBUG)
+    backend_logging.addHandler(fastapi_logger)
+
+    # Package logger
+    package_logger = logging.getLogger("PACKAGE")
+    package_logger.setLevel(level)
+    package_logger.addHandler(fastapi_logger)
+
+    # Create console handler and set level to DEBUG
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setLevel(logging.DEBUG)
+
+    # Create formatter
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s"
+    )
+    # Add formatter to console handler
+    console_handler.setFormatter(formatter)
+    # Add console handler to logger
+    fastapi_logger.addHandler(console_handler)

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from uuid import UUID
 
-from src.app.routers.auth.schemas.user_schemas import UserSchema
+from src.app.routers.auth.schemas import UserSchema
 
 
 class UserRepoAbstract(ABC):

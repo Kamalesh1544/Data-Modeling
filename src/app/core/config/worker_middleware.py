@@ -1,10 +1,8 @@
-import logging
 from typing import Any
 
 from taskiq import TaskiqMessage, TaskiqMiddleware, TaskiqResult
 
-
-logger = logging.getLogger("worker")
+from src.app.core import logger
 
 
 class MonitoringMiddleware(TaskiqMiddleware):

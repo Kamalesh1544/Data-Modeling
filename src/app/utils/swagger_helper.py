@@ -9,7 +9,7 @@ from typing import Any, Generic, TypeVar
 
 from pydantic import BaseModel
 
-from src.app.utils.schemas.output_schemas import (
+from src.app.utils.schemas import (
     ErrorOutputSchema,
     ErrorSchemas,
 )

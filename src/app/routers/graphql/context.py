@@ -1,7 +1,7 @@
 from fastapi import Request
 from strawberry.fastapi import BaseContext
 
-from src.app.utils.schemas.user_schemas import AuthUserSchema
+from src.app.utils.schemas import AuthUserSchema
 
 
 class CustomContext(BaseContext):

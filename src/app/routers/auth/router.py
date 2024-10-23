@@ -5,11 +5,10 @@ from fastapi.logger import logger
 from fastapi_injector import Injected
 from taskiq import AsyncTaskiqTask
 
-from src.app.routers.auth.schemas.user_schemas import UserSchema
-from src.app.routers.auth.services.user_services import UserService
+from src.app.routers.auth.schemas import UserSchema
+from src.app.routers.auth.services import UserService
 from src.app.tasks.user_tasks import add_task_math
-from src.app.utils.response_helper import success_response
-from src.app.utils.swagger_helper import generate_swagger_responses
+from src.app.utils import generate_swagger_responses, success_response
 
 
 # dependencies=[Depends(get_current_user)]

@@ -1,5 +1,3 @@
-import logging
-
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException
@@ -10,16 +8,15 @@ from tortoise.exceptions import (
     MultipleObjectsReturned,
 )
 
-from src.app.core.exceptions.resources_exceptions import ResourceNotFoundError
-from src.app.core.exceptions.user_exception import (
+from src.app.core import logger
+from src.app.utils import error_response
+from src.app.utils.schemas import ErrorSchemas
+
+from .resources_exceptions import ResourceNotFoundError
+from .user_exception import (
     UserAccountError,
     UserPermissionError,
 )
-from src.app.utils.response_helper import error_response
-from src.app.utils.schemas.output_schemas import ErrorSchemas
-
-
-logger = logging.getLogger("exception")
 
 
 def init_errors_handler(app: FastAPI):

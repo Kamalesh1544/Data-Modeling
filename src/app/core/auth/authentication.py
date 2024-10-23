@@ -1,15 +1,11 @@
-import logging
-
 from fastapi import Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from firebase_admin import auth
 from starlette.responses import Response
 
-from src.app.core.exceptions.user_exception import UserAccountError
-from src.app.utils.schemas.user_schemas import AuthUserSchema
-
-
-logger = logging.getLogger("USER_SERVICE")
+from src.app.core import logger
+from src.app.core.exceptions import UserAccountError
+from src.app.utils.schemas import AuthUserSchema
 
 
 def get_current_user(

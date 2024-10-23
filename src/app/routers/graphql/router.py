@@ -6,12 +6,12 @@ from strawberry.http import GraphQLHTTPResponse
 from strawberry.schema.config import StrawberryConfig
 from strawberry.types import ExecutionResult
 
-from src.app.core.auth.authentication import get_current_user
-from src.app.routers.graphql.context import CustomContext
-from src.app.routers.graphql.schemas.query_schemas import Query
-from src.app.utils.response_helper import error_response, success_response
-from src.app.utils.schemas.output_schemas import ErrorSchemas
-from src.app.utils.schemas.user_schemas import AuthUserSchema
+from src.app.core.auth import get_current_user
+from src.app.routers.graphql.schemas import Query
+from src.app.utils import error_response, success_response
+from src.app.utils.schemas import AuthUserSchema, ErrorSchemas
+
+from .context import CustomContext
 
 
 class MyGraphQLRouter(GraphQLRouter):

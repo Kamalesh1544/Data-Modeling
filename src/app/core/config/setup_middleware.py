@@ -8,7 +8,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 
-from src.app.core.config.settings import get_settings
+from src.app.core import get_settings
 
 
 class RequestIDMiddleware(BaseHTTPMiddleware):

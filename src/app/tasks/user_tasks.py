@@ -2,7 +2,7 @@ from uuid import UUID
 
 from fastapi_injector import InjectedTaskiq
 
-from src.app.routers.auth.services.user_services import UserService
+from src.app.routers.auth.services import UserService
 from src.app.worker import broker
 
 

@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 
 from src.app.core.config.settings import get_settings
-from src.app.db.tables.user.user_constants import USER_TABLES
+from src.app.db.tables.user_constants import USER_TABLES
 
 
 TORTOISE_ORM = {
