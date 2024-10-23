@@ -165,6 +165,9 @@ We use pre-commit hooks to ensure code quality. To set them up:
     3.bandit
 ## Testing
     1.pytest
+
+
+# Resources
 https://keda.sh/
 Get all the fixers
 pytest --fixtures
