@@ -42,6 +42,18 @@ TORTOISE_ORM = {
 
 
 def setup_db(app: FastAPI):
+    """
+    Set up the database for the FastAPI application using Tortoise ORM.
+
+    This function initializes the Tortoise ORM with the given FastAPI application.
+    It registers the Tortoise ORM with the application using the provided configuration.
+
+    Args:
+        app (FastAPI): The FastAPI application instance to set up the database for.
+
+    Returns:
+        None
+    """
     # init tortoise orm
     register_tortoise(
         app,

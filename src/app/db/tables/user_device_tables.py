@@ -1,10 +1,30 @@
-from tortoise import fields, models
+from tortoise import fields
 
 from .inheritance_table import TimestampMixin
 from .user_constants import UserTableConst
 
 
-class UserDeviceTable(TimestampMixin, models.Model):
+class UserDeviceTable(TimestampMixin):
+    """
+    UserDeviceTable represents a table for storing user device information.
+
+    Attributes:
+        id (int): Primary key for the table.
+        device_name (str): Name of the device, with a maximum length of 100 characters.
+        device_id (str): Unique identifier for the device, with a maximum length of 100 characters.
+        location (str): Location of the device, with a maximum length of 100 characters.
+        user (ForeignKeyField): Foreign key relationship to the user table.
+
+    Methods:
+        __str__(): Returns the device name as the string representation of the object.
+
+    Meta:
+        table (str): Name of the table in the database.
+
+    PydanticMeta:
+        exclude (list): List of fields to exclude from Pydantic model serialization.
+    """
+
     id = fields.IntField(pk=True)
     device_name = fields.CharField(max_length=100, default="")
     device_id = fields.CharField(max_length=100, default="")

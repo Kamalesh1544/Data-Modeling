@@ -13,9 +13,45 @@ logger = logging.getLogger(LOGGER_NAME)
 
 class Settings(BaseSettings):
     """
-    Define settings for the application including app name,
-    version, mode, log level, CORS configuration, database configuration,
-    Redis configuration, email configuration, and Celery configuration.
+    This class defines the configuration settings for the application.
+
+    Attributes:
+        APP_NAME (str): The name of the application.
+        APP_VERSION (str): The version of the application.
+        MODE (str): The mode in which the application is running (e.g., development, production).
+        LOG_LEVEL (int): The logging level for the application.
+        SUMMARY (str): A brief summary of the application. Default is "Backend Base".
+
+        ORIGINS (str): CORS allowed origins.
+        ALLOWED_HOST (str): CORS allowed hosts.
+
+        POSTGRES_HOST (str | None): The hostname for the PostgreSQL database.
+        POSTGRES_USER (str | None): The username for the PostgreSQL database.
+        POSTGRES_PASSWORD (str | None): The password for the PostgreSQL database.
+        POSTGRES_DB (str | None): The database name for the PostgreSQL database.
+        POSTGRES_PORT (str | None): The port for the PostgreSQL database.
+
+        REDIS_URL (str): The URL for the Redis server.
+
+        OPENAI_API_KEY (str): The API key for OpenAI.
+
+        SENTRY_DSN (str): The DSN for Sentry error tracking.
+
+        GRAPH_URL (str): The URL for the Neo4j graph database.
+        GRAPH_USER (str): The username for the Neo4j graph database.
+        GRAPH_PASSWORD (str): The password for the Neo4j graph database.
+        NEO4J_AUTH (str): The authentication method for Neo4j.
+        NEO4J_ACCEPT_LICENSE_AGREEMENT (str): Acceptance of the Neo4j license agreement.
+        NEO4J_PLUGINS (list): List of plugins for Neo4j.
+        NEO4J_dbms_security_procedures_allowlist (str): Allowed procedures for Neo4j.
+        NEO4J_dbms_security_procedures_unrestricted (str): Unrestricted procedures for Neo4j.
+        NEO4J_server_memory_heap_initial__size (str): Initial heap size for Neo4j server memory.
+        NEO4J_server_memory_heap_max__size (str): Maximum heap size for Neo4j server memory.
+        NEO4J_server_memory_pagecache_size (str): Page cache size for Neo4j server memory.
+        NEO4J_apoc_export_file_enabled (bool): Whether APOC export file is enabled for Neo4j.
+
+    Config:
+        extra (str): Configuration for handling extra fields. Default is "allow".
     """
 
     APP_NAME: str

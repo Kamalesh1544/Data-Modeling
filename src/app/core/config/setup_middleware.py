@@ -12,7 +12,43 @@ from src.app.core import get_settings
 
 
 class RequestIDMiddleware(BaseHTTPMiddleware):
+    """
+    Middleware to add a unique request ID and timestamp to each request and response.
+
+    This middleware generates a unique request ID and a timestamp when a request is received.
+    It adds these values to the request state and includes them in the response headers.
+
+    Attributes:
+        None
+
+    Methods:
+        dispatch(request: Request, call_next):
+            Generates a unique request ID and timestamp, adds them to the request state,
+            and includes them in the response headers.
+
+    Args:
+        request (Request): The incoming HTTP request.
+        call_next (Callable): The next middleware or route handler to be called.
+
+    Returns:
+        Response: The HTTP response with added request ID and timestamp headers.
+    """
+
     async def dispatch(self, request: Request, call_next):
+        """
+        Middleware dispatch method to handle incoming requests.
+
+        This method generates a unique request ID and a timestamp for each incoming request,
+        adds them to the request state, and includes them in the response headers for
+        logging purposes.
+
+        Args:
+            request (Request): The incoming HTTP request.
+            call_next (Callable): The next middleware or route handler to be called.
+
+        Returns:
+            Response: The HTTP response with added headers for request ID and timestamp.
+        """
         # Generate request ID and timestamp
         request_id = str(uuid.uuid4())
         timestamp = datetime.now().isoformat()
@@ -57,4 +93,5 @@ def setup_middleware(app: FastAPI):
 
     app.add_middleware(RequestIDMiddleware)
 
+    # Note: If you need streaming responses, you should not use GZipMiddleware.
     app.add_middleware(GZipMiddleware, minimum_size=1000)

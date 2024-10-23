@@ -6,18 +6,15 @@ from fastapi.logger import logger as fastapi_logger
 
 def init_logger(level):
     """
-    Initialize loggers for different components with the
-    specified logging level.
+    Initializes and configures logging for the application.
+
+    This function sets up various loggers used in the application, including
+    those for Gunicorn, Uvicorn, FastAPI, database clients, Tortoise ORM, and
+    custom loggers. It also configures a console handler to output logs to
+    stdout.
 
     Args:
-    - level: The logging level to set for all loggers.
-
-    Components initialized:
-    - gunicorn_error_logger: Logger for gunicorn errors.
-    - uvicorn_access_logger: Logger for uvicorn access.
-    - fastapi_logger: Logger for FastAPI.
-    - logger_db_client: Logger for database client.
-    - logger_tortoise: Logger for Tortoise ORM.
+        level (int): The logging level to set for the loggers.
     """
     # GCLOUD SETUP
     # client = Client()

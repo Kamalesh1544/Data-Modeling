@@ -5,6 +5,18 @@ crosstab = "CREATE EXTENSION IF NOT EXISTS tablefunc;"
 
 
 async def setup_view():
+    """
+    Sets up the database view if it does not already exist.
+
+    This function checks if a specific view exists in the database. If the view
+    does not exist, it executes a script to create the view.
+
+    Returns:
+        None
+
+    Raises:
+        Exception: If there is an issue with the database connection or query execution.
+    """
     # get connection
     connection = Tortoise.get_connection(connection_name="default")
 

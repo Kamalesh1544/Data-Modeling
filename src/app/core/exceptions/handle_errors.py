@@ -20,6 +20,24 @@ from .user_exception import (
 
 
 def init_errors_handler(app: FastAPI):
+    """
+    Initialize error handlers for the FastAPI application.
+
+    Args:
+        app (FastAPI): The FastAPI application instance.
+
+    Raises:
+        HTTPException: Handles HTTP exceptions.
+        RequestValidationError: Handles request validation errors.
+        ValueError: Handles value errors.
+        DoesNotExist: Handles Tortoise ORM DoesNotExist exceptions.
+        IntegrityError: Handles Tortoise ORM IntegrityError exceptions.
+        MultipleObjectsReturned: Handles Tortoise ORM MultipleObjectsReturned exceptions.
+        UserAccountError: Handles custom user account errors.
+        UserPermissionError: Handles custom user permission errors.
+        ResourceNotFoundError: Handles custom resource not found errors.
+    """
+
     @app.exception_handler(HTTPException)
     async def http_exception_handler(request: Request, exc: HTTPException):
         logger.error(f"HTTP exception: url: {request.base_url}", exc_info=exc)
