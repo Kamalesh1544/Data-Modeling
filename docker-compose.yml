@@ -1,102 +1,37 @@
-version: '3.9'
-
 services:
-  redis:
-    image: redis
-    restart: always
-    container_name: redis
-    ports:
-      - "6379:6379"
-
-  db:
-    image: postgres
-    container_name: database
-    restart: always
+  base_app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: base_app
+    command: ["uvicorn", "src.app.main:app", "--host", "0.0.0.0", "--port", "8082", "--reload"]
     env_file: .env
-    volumes:
-      - postgres_db:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
-  backend:
-    build: .
-    container_name: backend
-    command: >
-      sh -c "uvicorn src.app.main:app --reload --host 0.0.0.0 --port 8000"
     restart: always
-    env_file: .env
     volumes:
-      - .:/app
-    ports:
-      - "8000:8000"
-    depends_on:
-      - redis
-      - db
-    expose:
-      - 8000
+      - ..:/app
+    working_dir: /app
+    networks:
+      - db_network
+      - shared_network
 
-  celery:
-    restart: always
-    container_name: celery
+  base_worker:
     build:
       context: .
-    command: sh -c "celery -A src.app worker --concurrency=1 -l info"
+      dockerfile: Dockerfile
+    container_name: base_worker
+    restart: always
+    command: ["taskiq", "worker", "src.app.worker:broker", "-fsd", "-tp", "src/**/*_tasks.py"]
     env_file: .env
     volumes:
-      - .:/app
-    depends_on:
-      - redis
-      - db
-      - backend
+      - ..:/app
+    networks:
+      - db_network
+      - shared_network
 
-#  celerybeat:
-#    restart: always
-#    container_name: celerybeat
-#    build:
-#      context: .
-#    command: sh -c "celery -A recruit beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler"
-#    env_file: .env
-#    volumes:
-#      - .:/app
-#    depends_on:
-#      - redis
-#      - db
-#      - backend
-
-  flower:
-    image: mher/flower
-    restart: always
-    container_name: flower
-    env_file: .env
-    depends_on:
-      - redis
-      - backend
-      - celery
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/
-      - FLOWER_PORT=5555
-      - FLOWER_PERSISTENT=True
-    ports:
-      - "5555:5555"
-    volumes:
-      - flower-data:/var/
-
-  pgadmin:
-    container_name: pgadmin4
-    image: dpage/pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
-    ports:
-      - "5050:80"
-    volumes:
-      - my-data:/data
-
-
-# create global to save database
-# on same location
-volumes:
-  postgres_db:
-  my-data:
-  flower-data:
+networks:
+  db_network:
+    external: true
+    name: db_network
+  shared_network:
+    external: true
+    name: my_shared_network
