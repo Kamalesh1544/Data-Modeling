@@ -40,13 +40,13 @@ def init_logger(level):
 
     # register custom logger here
     injector_logging = logging.getLogger("injector")
-    injector_logging.setLevel(logging.DEBUG)
+    injector_logging.setLevel(level)
     injector_logging.addHandler(fastapi_logger)
 
     # Register custom logger for coding
     # TODO: Change the logger name to the appropriate name
     backend_logging = logging.getLogger("BACKEND_BASE")
-    backend_logging.setLevel(logging.DEBUG)
+    backend_logging.setLevel(level)
     backend_logging.addHandler(fastapi_logger)
 
     # Package logger
@@ -56,7 +56,7 @@ def init_logger(level):
 
     # Create console handler and set level to DEBUG
     console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(logging.DEBUG)
+    console_handler.setLevel(level)
 
     # Create formatter
     formatter = logging.Formatter(
