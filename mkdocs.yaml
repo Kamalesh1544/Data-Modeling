@@ -52,7 +52,6 @@ markdown_extensions:
 plugins:
   - search
   - autorefs
-  - blog
   - mkdocstrings:
       default_handler: python
       handlers:
