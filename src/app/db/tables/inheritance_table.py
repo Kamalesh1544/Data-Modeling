@@ -1,4 +1,36 @@
-from tortoise import fields, models
+from datetime import UTC, datetime
+
+from tortoise import fields, manager, models, queryset
+
+
+class CustomQuerySet(queryset.QuerySet):
+    async def update(self, **kwargs):
+        """
+        A custom QuerySet that overrides the update method to automatically
+        update the 'modified_at' field with the current timestamp.
+
+        This QuerySet ensures that any bulk update operation will update
+        the 'modified_at' field for all affected records.
+
+        Example:
+            await MyModel.filter(some_field=some_value).update(other_field=new_value)
+            # This will also update 'modified_at' for all matched records
+        """
+        kwargs["modified_at"] = datetime.now(UTC)
+        return await super().update(**kwargs)
+
+
+class CustomManager(manager.Manager):
+    def get_queryset(self) -> CustomQuerySet:
+        """
+        Override the default get_queryset method to return our CustomQuerySet.
+
+        Example:
+            # This will use CustomQuerySet for all operations
+            MyModel.all()
+            MyModel.filter(some_field=some_value)
+        """
+        return CustomQuerySet(self._model)
 
 
 class TimestampMixin(models.Model):
