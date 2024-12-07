@@ -1,4 +1,5 @@
 import logging
+import os
 from functools import lru_cache
 
 from pydantic_settings import BaseSettings
@@ -6,7 +7,7 @@ from pydantic_settings import BaseSettings
 
 IS_PRODUCTION = False
 # TODO: Change the logger name to the appropriate name
-LOGGER_NAME = "BACKEND_BASE"
+LOGGER_NAME = os.getenv("LOGGER_NAME", "backend_base")
 
 logger = logging.getLogger(LOGGER_NAME)
 
@@ -36,19 +37,6 @@ class Settings(BaseSettings):
         OPENAI_API_KEY (str): The API key for OpenAI.
 
         SENTRY_DSN (str): The DSN for Sentry error tracking.
-
-        GRAPH_URL (str): The URL for the Neo4j graph database.
-        GRAPH_USER (str): The username for the Neo4j graph database.
-        GRAPH_PASSWORD (str): The password for the Neo4j graph database.
-        NEO4J_AUTH (str): The authentication method for Neo4j.
-        NEO4J_ACCEPT_LICENSE_AGREEMENT (str): Acceptance of the Neo4j license agreement.
-        NEO4J_PLUGINS (list): List of plugins for Neo4j.
-        NEO4J_dbms_security_procedures_allowlist (str): Allowed procedures for Neo4j.
-        NEO4J_dbms_security_procedures_unrestricted (str): Unrestricted procedures for Neo4j.
-        NEO4J_server_memory_heap_initial__size (str): Initial heap size for Neo4j server memory.
-        NEO4J_server_memory_heap_max__size (str): Maximum heap size for Neo4j server memory.
-        NEO4J_server_memory_pagecache_size (str): Page cache size for Neo4j server memory.
-        NEO4J_apoc_export_file_enabled (bool): Whether APOC export file is enabled for Neo4j.
 
     Config:
         extra (str): Configuration for handling extra fields. Default is "allow".
@@ -109,22 +97,6 @@ class Settings(BaseSettings):
     ###### sentry Config ############
     #################################
     SENTRY_DSN: str
-
-    ##############################################
-    ################## NEO4J #####################
-    ##############################################
-    GRAPH_URL: str
-    GRAPH_USER: str
-    GRAPH_PASSWORD: str
-    NEO4J_AUTH: str
-    NEO4J_ACCEPT_LICENSE_AGREEMENT: str
-    NEO4J_PLUGINS: list
-    NEO4J_dbms_security_procedures_allowlist: str
-    NEO4J_dbms_security_procedures_unrestricted: str
-    NEO4J_server_memory_heap_initial__size: str
-    NEO4J_server_memory_heap_max__size: str
-    NEO4J_server_memory_pagecache_size: str
-    NEO4J_apoc_export_file_enabled: bool
 
     # Create Email Config
     # using FastAPI Mail
