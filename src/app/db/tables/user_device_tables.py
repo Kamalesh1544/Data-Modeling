@@ -1,6 +1,6 @@
 from tortoise import fields
 
-from .inheritance_table import TimestampMixin
+from .inheritance_table import CustomManager, TimestampMixin
 from .user_constants import UserTableConst
 
 
@@ -37,6 +37,7 @@ class UserDeviceTable(TimestampMixin):
 
     class Meta:
         table = "t_user_devices"
+        manager = CustomManager()
 
     class PydanticMeta:
         exclude = ["created_at", "updated_at", "status"]
