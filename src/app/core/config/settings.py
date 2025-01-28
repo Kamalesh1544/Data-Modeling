@@ -76,6 +76,8 @@ class Settings(BaseSettings):
     ###### REDIS Config ##########
     #################################
     REDIS_URL: str
+    REDIS_HOST: str
+    REDIS_PORT: int
     ###############################
     # OPEN AI
     ###############################

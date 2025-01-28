@@ -12,6 +12,6 @@ class UserTableConst:
 
 # All the tables inside this module will be registered
 USER_TABLES = [
-    "src.app.db.tables.user.user_tables",
-    "src.app.db.tables.user.user_device_tables",
+    "src.app.db.tables.user_tables",
+    "src.app.db.tables.user_device_tables",
 ]

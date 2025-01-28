@@ -7,14 +7,14 @@ T = TypeVar("T")
 
 
 class ErrorSchemas(BaseModel):
-    loc: list[str]
-    msg: str
-    type: str
+    loc: list[str] = Field(..., title="Location")
+    msg: str = Field(..., title="Error message")
+    type: str = Field(..., title="Error type")
 
 
 class ErrorOutputSchema(BaseModel):
-    code: str = Field("", title="Error code")
-    message: str = Field("", title="Error message")
+    code: str = Field(..., title="Error code")
+    message: str = Field(..., title="Error message")
     details: list[ErrorSchemas] = Field([], title="Error details")
 
 
