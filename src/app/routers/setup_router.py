@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from src.app.routers.auth import router as auth_router
+from src.app.routers.auth import get_router as get_auth_router
 from src.app.routers.graphql import graphql_app
 
 
@@ -15,6 +15,6 @@ def init_routes(app: FastAPI):
         app (FastAPI): The FastAPI application instance to which the routes
         will be added.
     """
-    app.include_router(auth_router)
+    app.include_router(get_auth_router())
     # crud router
     app.include_router(graphql_app, prefix="/gql")

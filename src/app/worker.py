@@ -1,9 +1,8 @@
 import os
 
-from fastapi_injector import attach_injector_taskiq
-from injector import Injector
+from injectq.integrations.taskiq import setup_taskiq
 from redis.asyncio import Redis
-from snowflakeid import SnowflakeIDConfig, SnowflakeIDGenerator
+from snowflakekit import SnowflakeConfig, SnowflakeGenerator
 from taskiq import (
     InMemoryBroker,
     SimpleRetryMiddleware,
@@ -15,8 +14,10 @@ from tortoise import Tortoise
 
 from src.app.core import get_settings, logger
 from src.app.core.config.worker_middleware import MonitoringMiddleware
+from src.app.core.di import container, ensure_app_modules
+from src.app.core.snowflake import SnowflakeID, snowflake_id_factory
 from src.app.db import TORTOISE_ORM
-from src.tests import register_fake_repos
+from src.tests.task_tests.setup import register_fake_repos
 
 
 env = os.environ.get("ENVIRONMENT")
@@ -53,7 +54,11 @@ redis_client = Redis(
 )
 
 # Setup id generator
-config = SnowflakeIDConfig(
+def create_snowflake_generator(config: SnowflakeConfig) -> SnowflakeGenerator:
+    return SnowflakeGenerator(config=config)
+
+
+config = SnowflakeConfig(
     epoch=1609459200000,
     node_id=1,
     worker_id=1,
@@ -62,15 +67,16 @@ config = SnowflakeIDConfig(
     worker_bits=8,
 )
 
-# setup injection
-injector = Injector()
-attach_injector_taskiq(broker.state, injector=injector)
+ensure_app_modules()
+setup_taskiq(container, broker)
 if _IS_TEST:
-    register_fake_repos(injector)
+    register_fake_repos(container)
 
-# save into injector
-injector.binder.bind(SnowflakeIDGenerator, SnowflakeIDGenerator(config=config))
-injector.binder.bind(Redis, redis_client)
+# save into container
+container.bind_instance(SnowflakeConfig, config)
+container.bind_factory(SnowflakeGenerator, create_snowflake_generator)
+container.bind_factory(SnowflakeID, snowflake_id_factory)
+container.bind_instance(Redis, redis_client)
 
 
 @broker.on_event(TaskiqEvents.WORKER_STARTUP)

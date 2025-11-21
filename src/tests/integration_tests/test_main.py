@@ -1,14 +1,15 @@
 from starlette.testclient import TestClient
 
 from src.app.core.auth import get_current_user
-from src.app.main import app, injector
+from src.app.core.di import container
+from src.app.main import app
 from src.app.routers.auth.repositories import UserRepo
 from src.app.utils.schemas import AuthUserSchema
 from src.tests.fake_data.fake_user_repo import FakeUserRepo
 
 
 client = TestClient(app)
-injector.binder.bind(UserRepo, FakeUserRepo())
+container.bind_instance(UserRepo, FakeUserRepo())
 
 
 def override_current_user():

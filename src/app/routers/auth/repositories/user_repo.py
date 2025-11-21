@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from injector import singleton
+from injectq import singleton
 
 from src.app.core import logger
 from src.app.db import UserTable

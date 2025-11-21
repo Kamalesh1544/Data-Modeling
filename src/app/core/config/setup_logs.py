@@ -38,10 +38,10 @@ def init_logger(level):
     logger_tortoise.setLevel(level)
     logger_tortoise.addHandler(fastapi_logger)
 
-    # register custom logger here
-    injector_logging = logging.getLogger("injector")
-    injector_logging.setLevel(level)
-    injector_logging.addHandler(fastapi_logger)
+    # register InjectQ logger here
+    injectq_logging = logging.getLogger("injectq")
+    injectq_logging.setLevel(level)
+    injectq_logging.addHandler(fastapi_logger)
 
     # Register custom logger for coding
     # TODO: Change the logger name to the appropriate name

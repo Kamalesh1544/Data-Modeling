@@ -1,8 +1,9 @@
+from typing import Annotated
 from uuid import UUID
 
 from fastapi import APIRouter, Request
 from fastapi.logger import logger
-from fastapi_injector import Injected
+from injectq.integrations.fastapi import InjectFastAPI
 from taskiq import AsyncTaskiqTask
 
 from src.app.routers.auth.schemas import UserSchema
@@ -27,7 +28,7 @@ router = APIRouter(
 async def user_details(
     request: Request,
     user_id: UUID,
-    service: UserService = Injected(UserService),
+    service: Annotated[UserService, InjectFastAPI(UserService)],
 ):
     res2: AsyncTaskiqTask = await add_task_math.kiq(
         x=5,
@@ -40,5 +41,6 @@ async def user_details(
     #     user_id=5
     # )
     # print(res3.task_id)
-    # res = await service.get_user(user_id)
-    return success_response({"message": "success"}, request)
+    user = await service.get_user(user_id)
+
+    return success_response(user.model_dump(), request)

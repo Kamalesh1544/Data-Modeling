@@ -2,13 +2,14 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
-from fastapi_injector import attach_injector
-from injector import Injector
+from injectq.integrations.fastapi import setup_fastapi
 from redis.asyncio import Redis
-from snowflakeid import SnowflakeIDConfig, SnowflakeIDGenerator
+from snowflakekit import SnowflakeConfig, SnowflakeGenerator
 from tortoise import Tortoise
 
 from src.app.core import get_settings, init_errors_handler, init_logger, setup_middleware
+from src.app.core.di import container, ensure_app_modules
+from src.app.core.snowflake import SnowflakeID, snowflake_id_factory
 from src.app.db import setup_db
 from src.app.routers import init_routes
 
@@ -42,12 +43,11 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+ensure_app_modules()
+setup_fastapi(container, app)
 setup_middleware(app)
 
 setup_db(app)
-
-injector = Injector()
-attach_injector(app, injector=injector)
 
 init_logger(settings.LOG_LEVEL)
 
@@ -57,7 +57,11 @@ init_errors_handler(app)
 # init routes
 init_routes(app)
 
-config = SnowflakeIDConfig(
+def create_snowflake_generator(config: SnowflakeConfig) -> SnowflakeGenerator:
+    return SnowflakeGenerator(config=config)
+
+
+config = SnowflakeConfig(
     epoch=1609459200000,
     node_id=1,
     worker_id=1,
@@ -66,5 +70,8 @@ config = SnowflakeIDConfig(
     worker_bits=8,
 )
 
-injector.binder.bind(SnowflakeIDGenerator, SnowflakeIDGenerator(config=config))
-injector.binder.bind(Redis, redis_client)
+container.bind_instance(SnowflakeConfig, config)
+container.bind_factory(SnowflakeGenerator, create_snowflake_generator)
+container.bind_factory(SnowflakeID, snowflake_id_factory)
+container.bind_instance(Redis, redis_client)
+

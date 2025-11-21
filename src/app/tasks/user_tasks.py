@@ -1,6 +1,7 @@
+from typing import Annotated
 from uuid import UUID
 
-from fastapi_injector import InjectedTaskiq
+from injectq.integrations.taskiq import InjectTaskiq
 
 from src.app.routers.auth.services import UserService
 from src.app.worker import broker
@@ -22,7 +23,10 @@ def add_task_math(x: int, y: int):
 
 
 @broker.task(task_name="user_service_post_processing")
-async def post_processing_user(user_id: int, service: UserService = InjectedTaskiq(UserService)):
+async def post_processing_user(
+    user_id: int,
+    service: Annotated[UserService, InjectTaskiq(UserService)],
+):
     """
     Post-processes a user by fetching user details using the provided user service.
 

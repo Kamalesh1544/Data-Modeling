@@ -47,7 +47,7 @@ async def test_get_user_success2(user_service, user_repo_mock):
         user_id=UUID("123e4567-e89b-12d3-a456-426614174000"),
         fullname="testuser",
         phone="1234567890",
-        token="",
+        token="Y" * 32,
         type=0,
         email="testuser@example.com",
     )
