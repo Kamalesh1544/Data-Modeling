@@ -66,11 +66,17 @@ class Settings(BaseSettings):
     #################################
     ###### Database Config ##########
     #################################
-    POSTGRES_HOST: str | None
-    POSTGRES_USER: str | None
-    POSTGRES_PASSWORD: str | None
-    POSTGRES_DB: str | None
-    POSTGRES_PORT: str | None
+    # Database type: 'sqlite' or 'postgresql'
+    DATABASE_TYPE: str = "sqlite"
+    # SQLite database file path (used when DATABASE_TYPE=sqlite)
+    SQLITE_DB_PATH: str = "./db.sqlite3"
+    # PostgreSQL configuration (used when DATABASE_TYPE=postgresql)
+    POSTGRES_HOST: str | None = None
+    POSTGRES_USER: str | None = None
+    POSTGRES_PASSWORD: str | None = None
+    POSTGRES_DB: str | None = None
+    POSTGRES_PORT: str | None = None
+    POSTGRES_SCHEMA: str = "cv"
 
     #################################
     ###### REDIS Config ##########

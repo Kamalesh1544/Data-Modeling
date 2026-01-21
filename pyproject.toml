@@ -95,6 +95,8 @@ convention = "google"
 [tool.pytest.ini_options]
 env = [
     "ENVIRONMENT=pytest",
+    "DATABASE_TYPE=sqlite",
+    "SQLITE_DB_PATH=./test_db.sqlite3",
 ]
 testpaths = [
     "src/tests/*",
@@ -105,4 +107,6 @@ filterwarnings = [
 
 [tool.pytest-env]
 ENVIRONMENT = "pytest"
+DATABASE_TYPE = "sqlite"
+SQLITE_DB_PATH = "./test_db.sqlite3"
 

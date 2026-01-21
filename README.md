@@ -1,6 +1,10 @@
 
 # Project Documentation
 
+## Quick Start
+
+**New to this project?** Check out the [Quick Start Guide](QUICKSTART.md) for a 5-minute setup using SQLite!
+
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Project Structure](#project-structure)
@@ -74,10 +78,48 @@ project_root/
     pip install -r requirements.txt
     ```
 
+4. Set up environment variables:
+    ```bash
+    cp .env.example .env
+    # Edit .env file as needed (SQLite is configured by default)
+    ```
+
 ## Database
 
 ### Database Configuration
-The database configuration is located in `src/app/db/setup_database.py`.
+
+This project supports both **SQLite** (for development) and **PostgreSQL** (for production). You can easily switch between them by changing the `DATABASE_TYPE` environment variable.
+
+#### SQLite Configuration (Default)
+SQLite is perfect for local development and testing. No additional services needed!
+
+1. Create a `.env` file from the example:
+    ```bash
+    cp .env.example .env
+    ```
+
+2. Ensure the following settings are in your `.env` file:
+    ```env
+    DATABASE_TYPE=sqlite
+    SQLITE_DB_PATH=./db.sqlite3
+    ```
+
+#### PostgreSQL Configuration
+For production or when you need PostgreSQL features, update your `.env` file:
+
+```env
+DATABASE_TYPE=postgresql
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_USER=your_user
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=your_database
+POSTGRES_SCHEMA=cv
+```
+
+**Note:** The database type is controlled entirely through environment variables, so you can switch between SQLite and PostgreSQL without changing any code!
+
+For detailed instructions on switching between databases, see the [Database Migration Guide](DATABASE_MIGRATION_GUIDE.md).
 
 ### Database Migration
 We use Aerich for database migrations. Follow these steps to manage your database:
