@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+import asyncio
+
 from fastapi import FastAPI
 from tortoise.contrib.fastapi import register_tortoise
 
@@ -35,15 +39,10 @@ def get_database_config():
                 "user": settings.POSTGRES_USER,
                 "password": settings.POSTGRES_PASSWORD,
                 "database": settings.POSTGRES_DB,
-                # choose schema
                 "schema": settings.POSTGRES_SCHEMA,
-                # Minimum connection pool size
                 "minsize": 1,
-                # Maximum connection pool size
                 "maxsize": 5,
-                # Connection timeout
                 "max_inactive_connection_lifetime": 300,
-                # Maximum number of queries before reconnecting
                 "max_queries": 50000,
             },
         }
@@ -66,20 +65,37 @@ TORTOISE_ORM = {
 }
 
 
+async def _init_relational_schema() -> None:
+    from src.app.routers.relational.init_db.repositories.init_db_repo import (  # noqa: PLC0415
+        InitDBRepo,
+    )
+    from src.app.routers.relational.init_db.services.init_db_service import (  # noqa: PLC0415
+        _get_connection,
+    )
+
+    conn = await _get_connection()
+    try:
+        await InitDBRepo().execute_ddl(conn)
+    finally:
+        await conn.close()
+
+
+async def _init_document_schema() -> None:
+    from motor.motor_asyncio import AsyncIOMotorClient  # noqa: PLC0415
+
+    from src.app.routers.document.init_db.repositories.init_db_repo import (  # noqa: PLC0415
+        InitDBRepo,
+    )
+
+    client = AsyncIOMotorClient("mongodb://localhost:27017")
+    try:
+        db = client["ecommerce_nosql"]
+        await InitDBRepo().init_collections(db)
+    finally:
+        client.close()
+
+
 def setup_db(app: FastAPI):
-    """
-    Set up the database for the FastAPI application using Tortoise ORM.
-
-    This function initializes the Tortoise ORM with the given FastAPI application.
-    It registers the Tortoise ORM with the application using the provided configuration.
-
-    Args:
-        app (FastAPI): The FastAPI application instance to set up the database for.
-
-    Returns:
-        None
-    """
-    # init tortoise orm
     register_tortoise(
         app,
         config=TORTOISE_ORM,
@@ -87,4 +103,16 @@ def setup_db(app: FastAPI):
         add_exception_handlers=False,
     )
 
-    logger.info("Database setup complete")
+    logger.info("Tortoise ORM registered for auth tables")
+
+    asyncio.run(_init_relational_schema())
+    logger.info("Relational schema (DDL) ready")
+
+    asyncio.run(_init_document_schema())
+    logger.info("Document schema (collections) ready")
+
+    logger.info(
+        "Multi-database initialization complete. "
+        "Use `python scripts/init_databases.py` to seed data."
+    )
+

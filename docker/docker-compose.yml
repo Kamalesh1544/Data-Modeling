@@ -1,0 +1,133 @@
+services:
+  # ===========================================================================
+  # PostgreSQL — Relational OLTP Database
+  # ===========================================================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: ecommerce_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ecommerce_oltp
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./src/app/db/relational/ddl.sql:/docker-entrypoint-initdb.d/01_ddl.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - data_network
+
+  # ===========================================================================
+  # MongoDB — Document Database
+  # ===========================================================================
+  mongodb:
+    image: mongo:7
+    container_name: ecommerce_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - data_network
+
+  # ===========================================================================
+  # Neo4j — Graph Database
+  # ===========================================================================
+  neo4j:
+    image: neo4j:5-community
+    container_name: ecommerce_neo4j
+    environment:
+      NEO4J_AUTH: neo4j/password
+      NEO4J_PLUGINS: '["apoc"]'
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j_data:/data
+    healthcheck:
+      test: cypher-shell -u neo4j -p password "RETURN 1"
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    networks:
+      - data_network
+
+  # ===========================================================================
+  # FastAPI Application
+  # ===========================================================================
+  base_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: base_app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+    command:
+      [
+        "uvicorn",
+        "src.app.main:app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8082",
+        "--reload",
+      ]
+    env_file: .env
+    restart: always
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "8082:8082"
+    networks:
+      - data_network
+
+  # ===========================================================================
+  # Jupyter Notebook Server
+  # ===========================================================================
+  jupyter:
+    image: jupyter/base-notebook:latest
+    container_name: ecommerce_notebook
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/home/jovyan/work
+    command:
+      [
+        "start-notebook.py",
+        "--NotebookApp.token=''",
+        "--NotebookApp.password=''",
+      ]
+    networks:
+      - data_network
+
+networks:
+  data_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  mongodb_data:
+  neo4j_data:

@@ -64,8 +64,10 @@ max-complexity = 10
 "bin/*.py" = ["E402", "S603", "T201", "S101"]
 "*/tests/*.py" = ["E402", "S603", "T201", "S101"]
 "*/test/*.py" = ["E402", "S603", "T201", "S101"]
-"scripts/*.py" = ["E402", "S603", "T201", "S101", "INP001"]
+"scripts/*.py" = ["E402", "S603", "T201", "S101", "INP001", "PLC0415"]
 "*/__init__.py" = ["E402", "S603", "T201", "S101"]
+"src/app/db/graph/neo4j_service.py" = ["S105"]
+"src/app/db/relational/postgres_service.py" = ["S608"]
 "*/migrations/*.py" = ["E402", "S603", "T201", "S101"]
 
 [tool.ruff.lint.isort]
@@ -95,8 +97,20 @@ convention = "google"
 [tool.pytest.ini_options]
 env = [
     "ENVIRONMENT=pytest",
+    "APP_NAME=TestApp",
+    "APP_VERSION=1.0.0",
+    "MODE=TEST",
+    "LOG_LEVEL=20",
+    "SUMMARY=Test API",
+    "ORIGINS=*",
+    "ALLOWED_HOST=*",
     "DATABASE_TYPE=sqlite",
     "SQLITE_DB_PATH=./test_db.sqlite3",
+    "REDIS_URL=redis://localhost:6379",
+    "REDIS_HOST=localhost",
+    "REDIS_PORT=6379",
+    "OPENAI_API_KEY=test-key",
+    "SENTRY_DSN=https://test@sentry.io/123",
 ]
 testpaths = [
     "src/tests/*",

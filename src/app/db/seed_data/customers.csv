@@ -1,0 +1,16 @@
+first_name,last_name,email,phone,address,city,state,zip_code,industry
+Alice,Johnson,alice.johnson@email.com,+1-555-0101,123 Main Street,San Francisco,CA,94102,Technology
+Bob,Smith,bob.smith@email.com,+1-555-0102,456 Oak Avenue,New York,NY,10001,Finance
+Carol,Williams,carol.williams@email.com,+1-555-0103,789 Pine Road,Chicago,IL,60601,Healthcare
+David,Brown,david.brown@email.com,+1-555-0104,321 Elm Street,Austin,TX,73301,Technology
+Emma,Jones,emma.jones@email.com,+1-555-0105,654 Maple Drive,Seattle,WA,98101,Retail
+Frank,Garcia,frank.garcia@email.com,+1-555-0106,987 Cedar Lane,Boston,MA,02101,Education
+Grace,Miller,grace.miller@email.com,+1-555-0107,147 Birch Court,Denver,CO,80201,Technology
+Henry,Davis,henry.davis@email.com,+1-555-0108,258 Walnut Way,Portland,OR,97201,Finance
+Isabel,Martinez,isabel.martinez@email.com,+1-555-0109,369 Spruce Street,Miami,FL,33101,Healthcare
+Jack,Anderson,jack.anderson@email.com,+1-555-0110,482 Ash Avenue,Phoenix,AZ,85001,Manufacturing
+Karen,Taylor,karen.taylor@email.com,+1-555-0111,573 Redwood Road,Dallas,TX,75201,Technology
+Leo,Thomas,leo.thomas@email.com,+1-555-0112,694 Willow Lane,Atlanta,GA,30301,Retail
+Mia,Jackson,mia.jackson@email.com,+1-555-0113,715 Poplar Street,Minneapolis,MN,55401,Education
+Noah,White,noah.white@email.com,+1-555-0114,826 Hickory Drive,San Diego,CA,92101,Healthcare
+Olivia,Harris,olivia.harris@email.com,+1-555-0115,937 Sycamore Court,Detroit,MI,48201,Finance
